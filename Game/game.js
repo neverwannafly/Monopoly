@@ -1,9 +1,8 @@
 class Game {
     constructor() {
-        this.board = [];
-        this.communityChest = [];
-        this.chance = [];
-        this.dice = [];
-        
+        this.board = boardSetup();
+        this.communityChest = cardSetup("COMMUNITY_CHEST");
+        this.chance = cardSetup("CHANCE");
+        this.dice = diceSetup();
     }
 };
