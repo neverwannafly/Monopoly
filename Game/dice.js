@@ -4,10 +4,11 @@ class Dice {
             this.randomFunction = function() {
                 return Math.floor(Math.random()*6) + 1;
             }
+        } else {
+            this.randomFunction = randomFunction;
         }
-        this.randomFunction = randomFunction;
     }
     roll() {
-        this.randomFunction();
+        return this.randomFunction();
     }
 };
