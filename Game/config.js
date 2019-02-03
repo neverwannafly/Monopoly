@@ -213,231 +213,235 @@ let rentScheme = {
 };
 
 let CARDS = {
-    COMMUNITY_CHEST: {
-        1: {
-            desc: `Advance to "Go"!`,
-            image: "assets/mascot/",
-            action: function() {
+    COMMUNITY_CHEST: function(gameMode) {
+        return {
+            1: {
+                desc: `Advance to "Go"!`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        2: {
-            desc:`Go to jail. Move directly to jail. Do not pass "Go". Do not collect ${gameModes[gameMode][currency]}${gameModes[gameMode][multiplier]*200}`,
-            image: "assets/mascot/",
-            action: function() {
-                
-            }
-        },
-        3: {
-            desc: `Go back to ${gameModes[gameMode][locations][1]}`,
-            image: "assets/mascot/",
-            action: function() {
-                
-            }
-        }, 
-        4: {
-            desc: `Pay hospital ${gameModes[gameMode][currency]}100`,
-            image: "assets/mascot/",
-            action: function() {
-                
-            }
-        }, 
-        5: {
-            desc: `Doctor's fee. Pay ${gameModes[gameMode][currency]}50`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            2: {
+                desc:`Go to jail. Move directly to jail. Do not pass "Go". Do not collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
+                image: "assets/mascot/",
+                action: function() {
+                    
+                }
+            },
+            3: {
+                desc: `Go back to ${gameModes[gameMode]["locations"][1]}`,
+                image: "assets/mascot/",
+                action: function() {
+                    
+                }
+            }, 
+            4: {
+                desc: `Pay hospital ${gameModes[gameMode]["currency"]}100`,
+                image: "assets/mascot/",
+                action: function() {
+                    
+                }
+            }, 
+            5: {
+                desc: `Doctor's fee. Pay ${gameModes[gameMode]["currency"]}50`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        6: {
-            desc: `Pay your insurance premium ${gameModes[gameMode][currency]}50`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            6: {
+                desc: `Pay your insurance premium ${gameModes[gameMode]["currency"]}50`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        7: {
-            desc: `Bank error in your favour. Collect ${gameModes[gameMode][currency]}200`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            7: {
+                desc: `Bank error in your favour. Collect ${gameModes[gameMode]["currency"]}200`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        8: {
-            desc: `Annuity matures. Collect ${gameModes[gameMode][currency]}100`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            8: {
+                desc: `Annuity matures. Collect ${gameModes[gameMode]["currency"]}100`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        9: {
-            desc: `You inherit ${gameModes[gameMode][currency]}100`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            9: {
+                desc: `You inherit ${gameModes[gameMode]["currency"]}100`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        10: {
-            desc: `From sale of stock you get ${gameModes[gameMode][currency]}50`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            10: {
+                desc: `From sale of stock you get ${gameModes[gameMode]["currency"]}50`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        11: {
-            desc: `Receive interest on 7% preference shares: ${gameModes[gameMode][currency]}25`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            11: {
+                desc: `Receive interest on 7% preference shares: ${gameModes[gameMode]["currency"]}25`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        12: {
-            desc: `Income tax refund. Collect ${gameModes[gameMode][currency]}20`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            12: {
+                desc: `Income tax refund. Collect ${gameModes[gameMode]["currency"]}20`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        13: {
-            desc: `You have won second prize in a beauty contest. Collect ${gameModes[gameMode][currency]}10`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            13: {
+                desc: `You have won second prize in a beauty contest. Collect ${gameModes[gameMode]["currency"]}10`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        14: {
-            desc: `It is your birthday. Collect ${gameModes[gameMode][currency]}10 from each player`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            14: {
+                desc: `It is your birthday. Collect ${gameModes[gameMode]["currency"]}10 from each player`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        15: {
-            desc: `Pay a ${gameModes[gameMode][currency]}10 fine or take a "Chance"`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            15: {
+                desc: `Pay a ${gameModes[gameMode]["currency"]}10 fine or take a "Chance"`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        16: {
-            desc: `Get out of jail free. This card may be kept until needed or sold`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            16: {
+                desc: `Get out of jail free. This card may be kept until needed or sold`,
+                image: "assets/mascot/",
+                action: function() {
 
+                }
             }
         }
     },
-    CHANCE: {
-        1: {
-            desc: `Advance to "Go"!`,
-            image: "assets/mascot/",
-            action: function() {
+    CHANCE: function(gameMode) {
+        return {
+            1: {
+                desc: `Advance to "Go"!`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        2: {
-            desc:`Go to jail. Move directly to jail. Do not pass "Go". Do not collect ${gameModes[gameMode][currency]}${gameModes[gameMode][multiplier]*200}`,
-            image: "assets/mascot/",
-            action: function() {
-                
-            }
-        },
-        3: {
-            desc: `Advance to ${gameModes[gameMode][locations][11]}. If you pass "Go" collect ${gameModes[gameMode][currency]}${gameModes[gameMode][multiplier]*200}`,
-            image: "assets/mascot/",
-            action: function() {
-                
-            }
-        }, 
-        4: {
-            desc: `Take a trip to ${gameModes[gameMode][locations][15]} and if you pass "Go" collect ${gameModes[gameMode][currency]}${gameModes[gameMode][multiplier]*200}`,
-            image: "assets/mascot/",
-            action: function() {
-                
-            }
-        }, 
-        5: {
-            desc: `Advance to ${gameModes[gameMode][locations][24]}. If you pass "Go" collect ${gameModes[gameMode][currency]}${gameModes[gameMode][multiplier]*200}`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            2: {
+                desc:`Go to jail. Move directly to jail. Do not pass "Go". Do not collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
+                image: "assets/mascot/",
+                action: function() {
+                    
+                }
+            },
+            3: {
+                desc: `Advance to ${gameModes[gameMode]["locations"][11]}. If you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
+                image: "assets/mascot/",
+                action: function() {
+                    
+                }
+            }, 
+            4: {
+                desc: `Take a trip to ${gameModes[gameMode]["locations"][15]} and if you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
+                image: "assets/mascot/",
+                action: function() {
+                    
+                }
+            }, 
+            5: {
+                desc: `Advance to ${gameModes[gameMode]["locations"][24]}. If you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        6: {
-            desc: `Advance to Mayfair`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            6: {
+                desc: `Advance to Mayfair`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        7: {
-            desc: `Go back three spaces`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            7: {
+                desc: `Go back three spaces`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        8: {
-            desc: `Make general repairs on all of your houses. For each house pay ${gameModes[gameMode][currency]}${gameModes[gameMode][multiplier]*25}. For each hotel pay ${gameModes[gameMode][currency]}${gameModes[gameMode][multiplier]*100}`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            8: {
+                desc: `Make general repairs on all of your houses. For each house pay ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*25}. For each hotel pay ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*100}`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        9: {
-            desc: `You are assessed for street repairs: ${gameModes[gameMode][currency]}${gameModes[gameMode][multiplier]*40} per house, ${gameModes[gameMode][currency]}${gameModes[gameMode][multiplier]*115} per hotel`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            9: {
+                desc: `You are assessed for street repairs: ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*40} per house, ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*115} per hotel`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        10: {
-            desc: `Pay school fees of ${gameModes[gameMode][currency]}150`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            10: {
+                desc: `Pay school fees of ${gameModes[gameMode]["currency"]}150`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        11: {
-            desc: `"Drunk in charge" fine ${gameModes[gameMode][currency]}20`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            11: {
+                desc: `"Drunk in charge" fine ${gameModes[gameMode]["currency"]}20`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        12: {
-            desc: `Speeding fine ${gameModes[gameMode][currency]}15`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            12: {
+                desc: `Speeding fine ${gameModes[gameMode]["currency"]}15`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        13: {
-            desc: `Your building loan matures. Receive ${gameModes[gameMode][currency]}150`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            13: {
+                desc: `Your building loan matures. Receive ${gameModes[gameMode]["currency"]}150`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        14: {
-            desc: `You have won a crossword competition. Collect ${gameModes[gameMode][currency]}100`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            14: {
+                desc: `You have won a crossword competition. Collect ${gameModes[gameMode]["currency"]}100`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        15: {
-            desc: `Bank pays you dividend of ${gameModes[gameMode][currency]}50`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            15: {
+                desc: `Bank pays you dividend of ${gameModes[gameMode]["currency"]}50`,
+                image: "assets/mascot/",
+                action: function() {
 
-            }
-        },
-        16: {
-            desc: `Get out of jail free. This card may be kept until needed or sold`,
-            image: "assets/mascot/",
-            action: function() {
+                }
+            },
+            16: {
+                desc: `Get out of jail free. This card may be kept until needed or sold`,
+                image: "assets/mascot/",
+                action: function() {
 
+                }
             }
         }
     }
