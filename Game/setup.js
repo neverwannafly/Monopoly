@@ -5,7 +5,7 @@ function boardSetup(gameMode="UK") {
 
     };
     for (let key in boardMap) {
-        let square = new Square(key, boardMap[key]["title"], boardMap[key]["value"], boardMap[key]["housePrice"], boardMap[key]["picture"], boardMap[key]["color"], rentScheme[key], action)
+        let square = new Square(1, key, boardMap[key]["title"], boardMap[key]["picture"], boardMap[key]["color"], boardMap[key]["value"], boardMap[key]["housePrice"], rentScheme[key])
         board.push(square);
     }
     return board;
@@ -27,4 +27,12 @@ function diceSetup() {
         dice[i] = new Dice();
     }
     return dice;
+}
+
+function playerSetup(playersArr, dice) {
+    let players = [];
+    for (let i=0; i<playersArr.lenth; i++) {
+        players[i] = new Player(playersArr[i].tokenid, i+1, playersArr[i].name, dice);
+    }
+    return players;
 }
