@@ -5,4 +5,9 @@ class Game {
         this.chance = cardSetup("CHANCE");
         this.dice = diceSetup();
     }
+
+    roll() {
+        return [this.dice[0].roll(), this.dice[1].roll()];
+    }
+
 };
