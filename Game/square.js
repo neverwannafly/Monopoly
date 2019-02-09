@@ -1,6 +1,6 @@
 // Defines a square on the monopoly board
 class Square {
-    constructor(type, id, name, picture, color, cost = null, houseCost = null, rent = null, action = null) {
+    constructor(type, id, name, picture, color = null, cost = null, houseCost = null, rent = null, action = null) {
         // Tells if the square is a normal (old kent road),multiplicative(stations, utilities) square or action squares (taxes, pass GO, jail etc)
         // 1 indicates a multiplicative or normal property square. 0 indicates an action square
         this.type = type;
@@ -14,13 +14,12 @@ class Square {
         // Contains a jpeg picture path for the property
         this.picture = picture;
 
-        // Color of the property
-        this.color = color;
-
         // token id of player currently on the square; -1 if none
         this.token = -1;
 
         if (type) {
+            // Color of the property
+            this.color = color;
             // Cost to buy the property
             this.cost = cost;
             // Cost of house
