@@ -8,6 +8,7 @@ class Dice {
             this.randomFunction = randomFunction;
         }
     }
+    
     roll() {
         return this.randomFunction();
     }
