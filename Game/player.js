@@ -1,17 +1,11 @@
 class Player {
-    constructor(tokenid, playerid, name, dice) {
+    constructor(tokenid, playerid, name) {
         this.tokenid = tokenid;
         this.playerid = playerid;
         this.name = name;
-        this.dice = dice;
         this.inTrade = false;
         this.properties = []; // array of propertyid's 
-        this.balance = 1500;   
-        this.assets = {};     
-    }
-
-    rollDice() {
-        this.dice.roll();
+        this.balance = 1500;      
     }
 
     returnBalance() {
@@ -30,7 +24,7 @@ class Player {
         this.balance -= amount;
     }
 
-    doesUserOwnSquare(sqaure) {
+    doesUserOwnSquare(square) {
 
     }
 
