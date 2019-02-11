@@ -9,11 +9,25 @@
     <script src="Game/config.js"></script>
     <script src="Game/card.js"></script>
     <script src="Game/square.js"></script>
+    <script src="Game/dices.js"></script>
+    <script src="Game/player.js"></script>
     <script src="Game/setup.js"></script>
-    <script src="Game/dice.js"></script>
     <script src="Game/game.js"></script>
     <script>
-        let game = new Game();
+        let playersArr = [{
+            tokenid: 1, 
+            name: "Shubham"
+        }, {
+            tokenid: 2,
+            name: "Nemank"
+        }, {
+            tokenid: 3,
+            name: "Vignesh"
+        }, {
+            tokenid: 4,
+            name: "Rohan"
+        }];
+        let game = new Game(playersArr);
         console.log(game);
     </script>
 </head>
