@@ -208,8 +208,8 @@ let gameModes = {
     },
 };
 
-let rentScheme = {
-
+let rentScheme = function(args) {
+    
 };
 
 let CARDS = {
