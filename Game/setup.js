@@ -5,7 +5,7 @@ function boardSetup(gameMode="UK") {
     // type 1 sqaures
 
     for (let key in boardMap) {
-        let square = new Square(1, key, boardMap[key]["title"], boardMap[key]["picture"], boardMap[key]["color"], boardMap[key]["value"], boardMap[key]["housePrice"], rentScheme[key])
+        let square = new Square(1, key, boardMap[key]["title"], boardMap[key]["picture"], boardMap[key]["color"], boardMap[key]["value"], boardMap[key]["housePrice"], boardMap[key]["rent"])
         board[key] = square;
     }
 
