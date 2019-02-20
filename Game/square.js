@@ -52,4 +52,13 @@ class Square {
         this.action();
     }
 
+    calculateRent(args) {
+        if (this.type) {
+            // Additional Data can be added to args: Dictionary here.
+
+            return this.rent(args);
+        }
+        throw console.error("This square doesnt generate rent");
+    }
+
 };
