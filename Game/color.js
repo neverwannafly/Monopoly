@@ -8,4 +8,5 @@ let RED = 'FF0000';
 let YELLOW = 'FFFF00';
 let GREEN = '7CFC00';
 let BLUE = '4169E1';
-let WHITE = 'FFFFFF';
+let WHITE = 'FFFFFF'; // for transport properties
+let SILVER = 'C0C0C0'; // for electric/water works
