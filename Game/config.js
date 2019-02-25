@@ -481,7 +481,7 @@ let CARDS = {
                 }
             },
             3: {
-                desc: `Go back to ${gameModes[gameMode]["locations"][1]}`,
+                desc: `Go back to ${gameModes[gameMode]["locations"][1]["title"]}`,
                 image: "assets/mascot/",
                 action: function() {
                     
@@ -597,28 +597,28 @@ let CARDS = {
                 }
             },
             3: {
-                desc: `Advance to ${gameModes[gameMode]["locations"][11]}. If you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
+                desc: `Advance to ${gameModes[gameMode]["locations"][11]["title"]}. If you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
                 image: "assets/mascot/",
                 action: function() {
                     
                 }
             }, 
             4: {
-                desc: `Take a trip to ${gameModes[gameMode]["locations"][15]} and if you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
+                desc: `Take a trip to ${gameModes[gameMode]["locations"][15]["title"]} and if you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
                 image: "assets/mascot/",
                 action: function() {
                     
                 }
             }, 
             5: {
-                desc: `Advance to ${gameModes[gameMode]["locations"][24]}. If you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
+                desc: `Advance to ${gameModes[gameMode]["locations"][24]["title"]}. If you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
                 image: "assets/mascot/",
                 action: function() {
 
                 }
             },
             6: {
-                desc: `Advance to ${gameModes[gameMode]["locations"][39]}`,
+                desc: `Advance to ${gameModes[gameMode]["locations"][39]["title"]}`,
                 image: "assets/mascot/",
                 action: function() {
 
@@ -696,4 +696,35 @@ let CARDS = {
             }
         }
     }
+}
+
+let sameTypePropDict = {
+    1: [3],
+    3: [1],
+    5: [15, 25, 35],
+    6: [8, 9],
+    8: [6, 9],
+    9: [6, 8],
+    11: [13, 14],
+    12: [28],
+    13: [11, 14],
+    14: [11, 13],
+    15: [5, 25, 35],
+    16: [18, 19],
+    18: [16, 19],
+    19: [16, 18],
+    21: [23, 24],
+    23: [21, 24],
+    24: [21, 23],
+    25: [5, 15, 35],
+    26: [27, 29],
+    27: [26, 29],
+    28: [12],
+    29: [26, 27],
+    31: [32, 34],
+    32: [31, 34],
+    34: [31, 32],
+    35: [5, 15, 25],
+    37: [39],
+    39: [37],
 }
