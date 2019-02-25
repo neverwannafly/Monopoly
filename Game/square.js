@@ -55,8 +55,17 @@ class Square {
     calculateRent(args) {
         if (this.type) {
             // Additional Data can be added to args: Dictionary here.
+            if (this.rent.length==2) {
+                // Utility Props
+                
+            }
+            else if (this.rent.length==4) {
+                // Stations
 
-            return this.rent(args);
+            } else {
+                // Normal Props
+                
+            }
         }
         throw console.error("This square doesnt generate rent");
     }
