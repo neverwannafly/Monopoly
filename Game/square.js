@@ -35,6 +35,8 @@ class Square {
         }
 
         if (!type) {
+            // When player lands on luxury tax or income tax
+            this.penalty = cost;
             // A function that triggers when a player lands on an action square
             this.action = action;
         }

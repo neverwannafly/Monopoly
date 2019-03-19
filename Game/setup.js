@@ -26,10 +26,10 @@ function boardSetup(gameMode="UK") {
 
     // type 0 : tax squares
 
-    board[4] = new Square(0, 3, "Income Tax", "assets/common/incometax.jpg", undefined, undefined, undefined, undefined, function(args) {
+    board[4] = new Square(0, 3, "Income Tax", "assets/common/incometax.jpg", undefined, 200, undefined, undefined, function(args) {
         // Player gets a deduction of 200 units of money
     });
-    board[38] = new Square(0, 38, "Luxury Tax", "assets/common/luxurytax.jpg", undefined, undefined, undefined, undefined, function(args) {
+    board[38] = new Square(0, 38, "Luxury Tax", "assets/common/luxurytax.jpg", undefined, 100, undefined, undefined, function(args) {
         // Player gets a deduction of 100 units of money
     });
 
@@ -60,6 +60,10 @@ function boardSetup(gameMode="UK") {
     return board;
 }
 
+function getCurrency(gameMode="UK") {
+    return gameModes[gameMode].currency;
+}
+
 function cardSetup(type, gameMode="UK") {
     let cards = [];
     let cardDict = CARDS[type](gameMode);
@@ -82,9 +86,7 @@ function dicesSetup() {
 
 function playerSetup(playersArr) {
     let players = [];
-    console.log(playersArr);
     for (let i=0; i<playersArr.length; i++) {
-        console.log("hey");
         players[i] = new Player(playersArr[i].tokenid, i+1, playersArr[i].name);
     }
     return players;
