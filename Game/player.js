@@ -12,10 +12,6 @@ class Player {
         return this.balance;
     }
 
-    canAfford(payment) {
-        return this.balance >= payment ? true : false;
-    }
-
     recieveMoney(amount) {
         this.balance += amount;
     }
@@ -24,8 +20,12 @@ class Player {
         this.balance -= amount;
     }
 
-    doesUserOwnSquare(square) {
+    doesOwnAllSameProps(propid) {
+        return sameTypePropDict.propid in this.properties;
+    }
 
+    addProperty(propid) {
+        this.properties.push(propid);
     }
 
 };
