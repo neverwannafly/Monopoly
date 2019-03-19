@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Monopoly</title>
+    <link rel="stylesheet" href="index.css">
     <script src="Game/color.js"></script>
     <script src="Game/config.js"></script>
     <script src="Game/card.js"></script>
@@ -13,6 +14,13 @@
     <script src="Game/player.js"></script>
     <script src="Game/setup.js"></script>
     <script src="Game/game.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="board">
+
+        </div>
+    </div>
     <script>
         let playersArr = [{
             tokenid: 1, 
@@ -31,9 +39,9 @@
         let game2 = new Game(playersArr, "USA");
         console.log(game1);
         console.log(game2);
+
+        game1.drawBoard();
+
     </script>
-</head>
-<body>
-    
 </body>
 </html>
