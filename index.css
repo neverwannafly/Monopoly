@@ -57,8 +57,10 @@ table {
     border: 2px solid black;
 }
 
-.empty {
-    background: lightcyan;
+table {
+    background: url("Game/assets/board.jpg") no-repeat center;
+    background-size: 82% 82%;
+    /* background-repeat: no-repeat center; */
 }
 
 div .row1 {
