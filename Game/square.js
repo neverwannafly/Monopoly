@@ -31,10 +31,7 @@ class Square {
             // Stores if the square has a mortage value
             this.mortage = false;
             // Hotels and houses built on the square, multiplicative squares wont have any houses or hotels built on them
-            this.assets = {
-                houses: 0,
-                hotels: 0,
-            };
+            this.assets = 0;
         }
 
         if (!type) {
@@ -48,26 +45,12 @@ class Square {
         this.ownerid = ownerid;
     }
 
-    triggerSquare() {
-        this.action();
+    returnOwner() {
+        return this.ownerid;
     }
 
-    calculateRent(args) {
-        if (this.type) {
-            // Additional Data can be added to args: Dictionary here.
-            if (this.rent.length==2) {
-                // Utility Props
-                
-            }
-            else if (this.rent.length==4) {
-                // Stations
-
-            } else {
-                // Normal Props
-                
-            }
-        }
-        throw console.error("This square doesnt generate rent");
+    triggerSquare() {
+        this.action();
     }
 
 };
