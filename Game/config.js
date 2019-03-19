@@ -164,7 +164,7 @@ let gameModes = {
                 rentScheme: [0,22,110,330,800,975,1150],
             },
             28: {
-                title: "Electric Works",
+                title: "Water Works",
                 value: 150,
                 housePrice: null,
                 color: SILVER,
