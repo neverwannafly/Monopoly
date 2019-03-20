@@ -10,8 +10,8 @@ class Game {
         // the playing order of players is same as indexing of the players array
         this.players = playerSetup(playersArr);
         this.playerPositions = new Array(this.players.length).fill(0); // Initially all players start at GO
-        // Initially player[0] will make his move
-        this.currentPlayer = 0;
+        this.currentPlayer = 0; // Initially player[0] will make his move
+        this.losers = []; //array containing list of lost players
         this.moves = 0;
     }
 
@@ -34,15 +34,23 @@ class Game {
     // Calculate Player's purchasing power
     calculateMortagedWorth() {
         let properties = this.getPlayer().properties;
-        let mortagedValue = 0;
+        let mortagedWorth = 0;
         for (prop of properties) {
             let worth = this.board[prop].cost;
             let isMortaged = this.board[prop].mortage;
+            let assets = this.board[prop].assets;
+            let houseCost = this.board[prop].houseCost;
             if (worth && !isMortaged) {
-                mortagedValue += worth/2;
+                // add value of properties
+                mortagedWorth += worth/2;
+                // Add house and hotel making cost. Mortages props will have assets = 0
+                mortagedWorth += assets * houseCost;
             }
         }
-        return mortagedValue;
+
+        mortagedWorth += this.playerBalance();
+
+        return mortagedWorth;
     }
 
     calculateTotalNetworth() {
@@ -100,13 +108,10 @@ class Game {
     }
 
     renderPlayArea() {
-        this.showPlayerData();
         this.drawBoard();
     }
 
-    showPlayerData() {
 
-    }
 
     drawBoard() {
         let board = document.getElementById("board");
@@ -153,7 +158,7 @@ class Game {
             <td id="32" class="cell highlight"><div class="content row3"><div class="color" style="background-color:#${this.board[32].color}"></div><div class="info">${this.board[32].name}<div class="cost">${this.currency}${this.board[32].cost}</div></div></div></td>
         </tr>
         <tr>
-            <td id="17" class="cell highlight"><div class="content row1"><div class="bigInfo vertcialCenter">${this.board[17].name}</div></div></td>
+            <td id="17" class="cell highlight"><div class="content row1"><div class="bigInfo verticalCenter">${this.board[17].name}</div></div></td>
             <td class="cell empty"></td>
             <td class="cell empty"></td>
             <td class="cell empty"></td>
