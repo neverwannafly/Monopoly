@@ -3,8 +3,29 @@ table {
 }
 
 .cell {
-    width: 70px;
-    height: 70px;
+    width: 50px!important;
+    height: 70px!important;
+    padding: 0;
+    margin: 0;
+}
+
+.inverted-cell {
+    width: 70px!important;
+    height: 50px!important;
+    padding: 0;
+    margin: 0;
+}
+
+.corner-cell {
+    width: 70px!important;
+    height: 70px!important;
+    padding: 0;
+    margin: 0;
+}
+
+.middle-cell {
+    width: 50px!important;
+    height: 50px!important;
     padding: 0;
     margin: 0;
 }
@@ -20,6 +41,7 @@ table {
 }
 
 .content {
+    width: 100%;
     height: 100%;
 }
 
@@ -59,7 +81,7 @@ table {
 
 table {
     background: url("../img/board.jpg") no-repeat center;
-    background-size: 82% 82%;
+    background-size: 77% 77%;
 }
 
 div .row1 {
