@@ -58,9 +58,8 @@ table {
 }
 
 table {
-    background: url("Game/assets/board.jpg") no-repeat center;
+    background: url("../img/board.jpg") no-repeat center;
     background-size: 82% 82%;
-    /* background-repeat: no-repeat center; */
 }
 
 div .row1 {
