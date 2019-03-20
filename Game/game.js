@@ -95,7 +95,12 @@ class Game {
         this.playerPositions[this.currentPlayer] += diceRoll % BOARD_LIMIT;
     }
 
-    // For console view
+    endTurn() {
+        this.currentPlayer = (this.currentPlayer + 1) % this.players.length;
+    }
+
+    
+
     drawBoard() {
         let board = document.getElementById("board");
         let monopolyBoard = document.createElement("table");
