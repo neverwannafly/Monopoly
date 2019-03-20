@@ -20,7 +20,7 @@ let gameModes = {
                 rentScheme: [0,4,20,60,180,320,450],
             },
             5: {
-                title: "King's Cross station",
+                title: "King's Cross Station",
                 value: 200,
                 housePrice: null,
                 color: WHITE,
@@ -250,7 +250,7 @@ let gameModes = {
                 rentScheme: [0,4,20,60,180,320,450],
             },
             5: {
-                title: "King's Cross station",
+                title: "Reading Railroad",
                 value: 200,
                 housePrice: null,
                 color: WHITE,
@@ -322,7 +322,7 @@ let gameModes = {
                 rentScheme: [25,50,100,200],
             },
             16: {
-                title: "St. James Place",
+                title: "Pennsylvania Railroad",
                 value: 180,
                 housePrice: 90,
                 color: ORANGE,
@@ -370,7 +370,7 @@ let gameModes = {
                 rentScheme: [0,20,100,300,750,925,1100],
             },
             25: {
-                title: "Fenchurch Street station",
+                title: "B & O Railroad",
                 value: 200,
                 housePrice: null,
                 color: WHITE,
@@ -434,7 +434,7 @@ let gameModes = {
                 rentScheme: [0,28,150,450,1000,1200,1400],
             },
             35: {
-                title: "Liverpool Street Station",
+                title: "Short Line Railroad",
                 value: 200,
                 housePrice: null,
                 color: WHITE,
