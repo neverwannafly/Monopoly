@@ -5,6 +5,7 @@ class Player {
         this.name = name;
         this.inTrade = false;
         this.inJail = false;
+        this.isBankrupt = false;
         this.properties = []; // array of propertyid's 
         this.balance = 1500;      
     }
