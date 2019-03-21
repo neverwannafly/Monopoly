@@ -167,7 +167,10 @@ class Game {
         let initPos = this.getPlayer().position;
         this.getPlayer().position = (this.getPlayer().position + diceRoll)% BOARD_LIMIT;
         let finalPos = this.getPlayer().position;
-        let diff = finalPos - initPos;
+        if (initPos + diceRoll > finalPos) {
+            return this.passGo();
+        }
+        return null;
     }
 
     endTurn() {
