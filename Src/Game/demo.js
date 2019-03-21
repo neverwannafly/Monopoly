@@ -1,0 +1,8 @@
+game.incrementPlayerPosition(12)
+game.buyProp()
+game.endTurn()
+game.incrementPlayerPosition(8)
+game.buyProp()
+game.endTurn()
+game.incrementPlayerPosition(8)
+game.payRent()
