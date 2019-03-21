@@ -42,8 +42,29 @@ class Game {
         return this.getProperty().getCost();
     }
 
-    getPropertyOwner() {
-        return this.getPlayer(this.getProperty().getOwner());
+    getPropertyHouseCost(propid) {
+        return this.getProperty(propid).getHouseCost();
+    }
+
+    getPropertyOwner(propid) {
+        return this.getPlayer(this.getProperty(propid).getOwner());
+    }
+
+    checkPropertyLinearity(propid) {
+        let props = this.getPlayer().returnSameProps(propid);
+        props.push(propid);
+        let lowCount = 5;
+        let highCount = 0;
+        for (let i in props) {
+            let assets = this.getProperty(props[i]).getAssets();
+            if (assets < lowCount) {
+                lowCount = assets;
+            }
+            if (assets > highCount) {
+                highCount = assets;
+            }
+        }
+        return (highCount - lowCount <= 1) && (highCount - lowCount >=0) && (highCount<=5);
     }
 
     getPropertyRent() {
@@ -178,6 +199,36 @@ class Game {
         }
         return transaction;
     }
+
+    canBuildHouse(propid) {
+        return this.getProperty(propid).type===1 && this.getProperty(propid).getOwner()===this.getPlayer().getId() && this.getPlayerBalance() > this.getPropertyHouseCost(propid) && (this.checkPropertyLinearity(propid));
+    }
+
+    buildHouse(propid) {
+        let plyr = this.getPlayer();
+        let prop = this.getProperty(propid);
+        if (!this.canBuildHouse(propid)) {
+            let transaction = {
+                type: 9,
+                message: "You need all properties of same color set to begin building houses",
+            };
+            return transaction;
+        }
+        
+        let cost = this.getPropertyHouseCost();
+
+        plyr.payMoney(cost);
+        prop.buildHouse();
+
+        let transaction = {
+            type: 3,
+            message: `${plyr.name} built a house on ${prop}.name`,
+        }
+        return transaction;
+
+    }
+
+    can
 
     incrementPlayerPosition(diceRoll) {
         let initPos = this.getPlayer().position;
