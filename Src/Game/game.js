@@ -309,6 +309,32 @@ class Game {
         return transaction;
     }
 
+    canUnmortage(propid, cost) {
+        return this.getProperty(propid).type===1 && this.getProperty(propid).getOwner()===this.getPlayer().getId() && this.getProperty().isMortaged() && this.getPlayerBalance() > cost;
+    }
+    
+    mortageProperty(propid) {
+
+        let cost = (this.getPropertyCost * 1.2)/2;
+
+        if (!this.canUnmortage(propid, cost)) {
+            let transaction = {
+                type: 9,
+                message: `Cannot Mortage this property`,
+            }
+            return transaction;
+        }
+
+        this.getPlayer().payMoney(cost);
+        this.getProperty(propid).unmortageProperty();
+
+        let transaction = {
+            type: 7,
+            message: `${this.getPlayer().name} unmortaged ${this.getProperty().name}`,
+        }
+        return transaction;
+    }
+
     incrementPlayerPosition(diceRoll) {
         let initPos = this.getPlayer().position;
         this.getPlayer().position = (this.getPlayer().position + diceRoll)% BOARD_LIMIT;
