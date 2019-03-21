@@ -59,6 +59,22 @@ class Square {
         return this.cost;
     }
 
+    getHouseCost() {
+        return this.houseCost;
+    }
+
+    getAssets() {
+        return this.assets;
+    }
+
+    buildHouse() {
+        this.assets += 1;
+    }
+
+    destroyHouse() {
+        this.assets -= 1;
+    }
+
     calculateRent(params) {
         if (this.rent == undefined) {
             return 0;
