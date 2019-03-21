@@ -26,6 +26,10 @@ class Game {
         return playerId ? this.players[this.getIndexById(playerId)] : this.players[this.currentPlayer];
     }
 
+    getPlayerProperties() {
+        return this.getPlayer().properties;
+    }
+
     getProperty(propid=undefined) {
         return propid ? this.board[propid] : this.board[this.getPlayer().position];
     }
@@ -36,6 +40,22 @@ class Game {
 
     getPropertyCost() {
         return this.getProperty().getCost();
+    }
+
+    getPropertyOwner() {
+        return this.getPlayer(this.getProperty().getOwner());
+    }
+
+    getPropertyRent() {
+        let owner = this.getPropertyOwner();
+        let propid = this.getProperty().getId();
+        let params = {
+            diceSum: this.getDiceInfo().diceSum,
+            sameProps: owner.samePropsCount(propid),
+            ownsPropSet: owner.ownsPropSet(propid),
+        };
+        let rent = this.getProperty().calculateRent(params);
+        return rent;
     }
 
     // Calculate Player's purchasing power
@@ -138,16 +158,11 @@ class Game {
     }
 
     payRent() {
-        let owner = this.getPlayer(this.getProperty().getOwner());
-        let propid = this.getProperty().getId();
-        let params = {
-            diceSum: this.getDiceInfo().diceSum,
-            sameProps: owner.samePropsCount(propid),
-            ownsPropSet: owner.ownsPropSet(propid),
-        };
-        let rent = this.getProperty().calculateRent(params);
-
+        
+        let owner = this.getPropertyOwner();
+        let rent = this.getPropertyRent();
         let pending = 0;
+
         if (rent > this.getPlayerBalance()) {
             pending = rent - this.getPlayerBalance();
             rent = this.getPlayerBalance();
@@ -155,6 +170,7 @@ class Game {
 
         this.getPlayer().payMoney(rent);
         owner.recieveMoney(rent);
+
         let transaction = {
             type: 2,
             pending: pending,
