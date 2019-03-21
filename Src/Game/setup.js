@@ -87,7 +87,7 @@ function dicesSetup() {
 function playerSetup(playersArr) {
     let players = [];
     for (let i=0; i<playersArr.length; i++) {
-        players[i] = new Player(playersArr[i].tokenid, i+1, playersArr[i].name);
+        players[i] = new Player(playersArr[i].tokenid, playersArr[i].id, playersArr[i].name);
     }
     return players;
 }
