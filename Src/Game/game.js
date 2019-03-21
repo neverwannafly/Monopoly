@@ -26,8 +26,8 @@ class Game {
         return playerId ? this.players[this.getIndexById(playerId)] : this.players[this.currentPlayer];
     }
 
-    getProperty() {
-        return this.board[this.players[this.currentPlayer].position];
+    getProperty(propid=undefined) {
+        return propid ? this.board[propid] : this.board[this.getPlayer().position];
     }
 
     getPlayerBalance() {
@@ -132,7 +132,7 @@ class Game {
         }
         let error = {
             type: 9,
-            message: "Transaction Failed",
+            message: "Transaction Failed as property is already bought",
         }
         return error;
     }
