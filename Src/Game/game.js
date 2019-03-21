@@ -10,12 +10,20 @@ class Game {
         // the playing order of players is same as indexing of the players array
         this.players = playerSetup(playersArr);
         this.currentPlayer = 0; // Initially player[0] will make his move
-        this.losers = []; //array containing list of lost players
         this.moves = 0;
     }
 
-    getPlayer() {
-        return this.players[this.currentPlayer];
+    getIndexById(playerId) {
+        for (let pl in this.players) {
+            if (this.players[pl].getId() === playerId) {
+                return pl;
+            }
+        }
+        return this.currentPlayer;
+    }
+
+    getPlayer(playerId=undefined) {
+        return playerId ? this.players[this.getIndexById(playerId)] : this.players[this.currentPlayer];
     }
 
     getProperty() {
@@ -23,11 +31,11 @@ class Game {
     }
 
     getPlayerBalance() {
-        return this.getPlayer().returnBalance();
+        return this.getPlayer().getBalance();
     }
 
     getPropertyCost() {
-        return this.getProperty().cost;
+        return this.getProperty().getCost();
     }
 
     // Calculate Player's purchasing power
@@ -73,26 +81,12 @@ class Game {
         return totalNetWorth; 
     }
 
-    canBuyProp() {
-        return this.playerBalance() > this.propertyCost();
-    }
-
-    returnPropertyOwner() {
-        return this.getProperty().returnOwner();
-    }
-
-    buyProperty() {
-        if (this.canBuyProp()) {
-            this.getPlayer().addProperty(this.getProperty().id);
-            this.getPlayer().payMoney(this.getProperty().cost);
-            this.getProperty().setOwner(this.currentPlayer);
-            return true;
-        }
-        return false;
-    }
-
     rollDice() {
         this.dices.roll();
+        return this.getDiceInfo();
+    }
+
+    getDiceInfo() {
         let diceRollInfo = {
             diceSum: this.dices.returnDiceSum(),
             isRollDouble: this.dices.isRollDouble(),
@@ -102,11 +96,82 @@ class Game {
         return diceRollInfo;
     }
 
+    passGo() {
+        this.getPlayer().recieveMoney(200);
+        let transaction = {
+            type: 0,
+            messgae: `${this.getPlayer().name} gets ${this.currency}200 for passing GO`,
+        }
+        return transaction;
+    }
+
+    goToJail() {
+        this.getPlayer().position = 10;
+        this.getPlayer().isInFail = true;
+        let transaction = {
+            type: 0,
+            messgae: `${this.getPlayer().name} went to Jail`,
+        }
+        return transaction;
+    }
+
+    canBuyProp() {
+        return this.getProperty().type===1 && this.getProperty().getOwner()===-1 && this.getPlayerBalance() > this.getPropertyCost();
+    }
+
+    buyProp() {
+        if (this.canBuyProp()) {
+            this.getPlayer().payMoney(this.getPropertyCost());
+            this.getPlayer().addProperty(this.getProperty().getId());
+            this.getProperty().setOwner(this.getPlayer().getId());
+            let transaction = {
+                type: 1,
+                message: `${this.getPlayer().name} purchases ${this.getProperty().name} for ${this.currency}${this.getPropertyCost()}`,
+            };
+            return transaction;
+        }
+        let error = {
+            type: 9,
+            message: "Transaction Failed",
+        }
+        return error;
+    }
+
+    payRent() {
+        let owner = this.getPlayer(this.getProperty().getOwner());
+        let propid = this.getProperty().getId();
+        let params = {
+            diceSum: this.getDiceInfo().diceSum,
+            sameProps: owner.samePropsCount(propid),
+            ownsPropSet: owner.ownsPropSet(propid),
+        };
+        let rent = this.getProperty().calculateRent(params);
+
+        let pending = 0;
+        if (rent > this.getPlayerBalance()) {
+            pending = rent - this.getPlayerBalance();
+            rent = this.getPlayerBalance();
+        }
+
+        this.getPlayer().payMoney(rent);
+        owner.recieveMoney(rent);
+        let transaction = {
+            type: 2,
+            pending: pending,
+            message: `${this.getPlayer().name} pays ${owner.name} ${this.currency}${rent} for ${this.getProperty().name}`,
+        }
+        return transaction;
+    }
+
     incrementPlayerPosition(diceRoll) {
-        this.players[this.currentPlayer].position = (this.players[this.currentPlayer].position + diceRoll)% BOARD_LIMIT;
+        let initPos = this.getPlayer().position;
+        this.getPlayer().position = (this.getPlayer().position + diceRoll)% BOARD_LIMIT;
+        let finalPos = this.getPlayer().position;
+        let diff = finalPos - initPos;
     }
 
     endTurn() {
+        this.moves += (this.currentPlayer/3);
         this.currentPlayer = (this.currentPlayer + 1) % this.players.length;
     }
 
