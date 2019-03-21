@@ -44,11 +44,36 @@ class Square {
     }
 
     setOwner(ownerid) {
-        this.ownerid = ownerid;
+        this.owner = ownerid;
     }
 
-    returnOwner() {
-        return this.ownerid;
+    getId() {
+        return this.id;
+    }
+
+    getOwner() {
+        return this.owner;
+    }
+
+    getCost() {
+        return this.cost;
+    }
+
+    calculateRent(params) {
+        if (this.rent == undefined) {
+            return 0;
+        }
+        if (this.rent.length===2) {
+            let diceSum = params.diceSum;
+            return this.rent[params.sameProps] * diceSum;
+        } else if (this.rent.length===4) {
+            return this.rent[params.sameProps];
+        } else {
+            if (this.assets===0 && params.ownsPropSet) {
+                return this.rent[0] * 2;
+            }
+            return this.rent[this.assets];
+        }
     }
 
     triggerSquare() {
