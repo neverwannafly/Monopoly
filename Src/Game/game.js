@@ -201,6 +201,14 @@ class Game {
 
     payRent() {
         
+        if (this.getProperty().isMortaged()) {
+            let transaction = {
+                type: 8,
+                message: `${this.getPlayer().name} lands on a mortaged property ${this.getProperty().name}`,
+            }
+            return transaction;
+        }
+
         let owner = this.getPropertyOwner();
         let rent = this.getPropertyRent();
         let pending = 0;
@@ -272,6 +280,31 @@ class Game {
         let transaction = {
             type: 3,
             message: `${plyr.name} destroyed a house on ${prop.name}`,
+        }
+        return transaction;
+    }
+
+    canMortage(propid) {
+        return this.getProperty(propid).type===1 && this.getProperty(propid).getOwner()===this.getPlayer().getId() && !this.getProperty().isMortaged();
+    }
+    
+    mortageProperty(propid) {
+        if (!this.canMortage(propid)) {
+            let transaction = {
+                type: 9,
+                message: `Cannot Mortage this property`,
+            }
+            return transaction;
+        }
+
+        let cost = this.getPropertyCost()/2;
+
+        this.getPlayer().recieveMoney(cost);
+        this.getProperty(propid).mortageProperty();
+
+        let transaction = {
+            type: 7,
+            message: `${this.getPlayer().name} mortaged ${this.getProperty().name}`,
         }
         return transaction;
     }
