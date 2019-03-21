@@ -11,7 +11,11 @@ class Player {
         this.balance = 1500;      
     }
 
-    returnBalance() {
+    getId() {
+        return this.playerid;
+    }
+
+    getBalance() {
         return this.balance;
     }
 
@@ -23,8 +27,30 @@ class Player {
         this.balance -= amount;
     }
 
-    doesOwnAllSameProps(propid) {
-        return sameTypePropDict.propid in this.properties;
+    ownsPropSet(propid) {
+        let found = 0;
+        let lookupProps = sameTypePropDict[propid];
+        for (let i in lookupProps) {
+            for (let j in this.properties) {
+                if (lookupProps[i]==this.properties[j]) {
+                    found++;
+                }
+            }
+        }
+        return lookupProps.length === found;
+    }
+
+    samePropsCount(propid) {
+        let count = 1;
+        let lookupProps = sameTypePropDict[propid];
+        for (let i in lookupProps) {
+            for (let j in this.properties) {
+                if (lookupProps[i]===this.properties[j]) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     addProperty(propid) {
