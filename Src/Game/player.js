@@ -53,6 +53,10 @@ class Player {
         return count;
     }
 
+    returnSameProps(propid) {
+        return [...sameTypePropDict[propid]];
+    }
+
     addProperty(propid) {
         this.properties.push(propid);
     }
