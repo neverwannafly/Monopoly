@@ -13,7 +13,7 @@ let playersArr = [{
 }, {
     id: 55432,
     tokenid: 1,
-    name: "Rohan"
+    name: "Spandan"
 }];
 
 let game = new Game(playersArr, "USA")
