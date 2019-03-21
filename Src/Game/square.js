@@ -75,6 +75,18 @@ class Square {
         this.assets -= 1;
     }
 
+    isMortaged() {
+        return this.mortage;
+    }
+
+    mortageProperty() {
+        this.mortage = true;
+    }
+
+    unmortageProperty() {
+        this.mortage = false;
+    }
+
     calculateRent(params) {
         if (this.rent == undefined) {
             return 0;
