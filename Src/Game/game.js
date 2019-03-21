@@ -231,7 +231,7 @@ class Game {
         if (!this.canBuildHouse(propid)) {
             let transaction = {
                 type: 9,
-                message: "You need all properties of same color set to begin building houses",
+                message: "Houses cannot be built at this property",
             };
             return transaction;
         }
@@ -243,14 +243,37 @@ class Game {
 
         let transaction = {
             type: 3,
-            message: `${plyr.name} built a house on ${prop}.name`,
+            message: `${plyr.name} built a house on ${prop.name}`,
         }
         return transaction;
 
     }
 
     canDestroyHouse(propid) {
+        return this.getProperty(propid).type===1 && this.getProperty(propid).getOwner()===this.getPlayer().getId() && (this.checkPropertyLinearity(propid, true));
+    }
 
+    destroyHouse(propid) {
+        let plyr = this.getPlayer();
+        let prop = this.getProperty(propid);
+        if (!this.canDestroyHouse(propid)) {
+            let transaction = {
+                type: 9,
+                message: "Houses cannot be destroyed at this property",
+            };
+            return transaction;
+        }
+        
+        let cost = this.getPropertyHouseCost();
+
+        plyr.recieveMoney(cost);
+        prop.destroyHouse();
+
+        let transaction = {
+            type: 3,
+            message: `${plyr.name} destroyed a house on ${prop.name}`,
+        }
+        return transaction;
     }
 
     incrementPlayerPosition(diceRoll) {
