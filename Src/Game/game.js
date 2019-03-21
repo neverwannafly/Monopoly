@@ -9,7 +9,6 @@ class Game {
         this.dices = dicesSetup();
         // the playing order of players is same as indexing of the players array
         this.players = playerSetup(playersArr);
-        this.playerPositions = new Array(this.players.length).fill(0); // Initially all players start at GO
         this.currentPlayer = 0; // Initially player[0] will make his move
         this.losers = []; //array containing list of lost players
         this.moves = 0;
@@ -20,14 +19,14 @@ class Game {
     }
 
     getProperty() {
-        return this.board[this.playerPositions[this.currentPlayer]]
+        return this.board[this.players[this.currentPlayer].position];
     }
 
-    playerBalance() {
+    getPlayerBalance() {
         return this.getPlayer().returnBalance();
     }
 
-    propertyCost() {
+    getPropertyCost() {
         return this.getProperty().cost;
     }
 
@@ -35,7 +34,7 @@ class Game {
     calculateMortagedWorth() {
         let properties = this.getPlayer().properties;
         let mortagedWorth = 0;
-        for (prop of properties) {
+        for (prop in properties) {
             let worth = this.board[prop].cost;
             let isMortaged = this.board[prop].mortage;
             let assets = this.board[prop].assets;
@@ -94,13 +93,17 @@ class Game {
 
     rollDice() {
         this.dices.roll();
-        let diceRoll = this.dices.returnDiceSum;
-        incrementPlayerPosition(diceRoll);
-        return diceRoll;
+        let diceRollInfo = {
+            diceSum: this.dices.returnDiceSum(),
+            isRollDouble: this.dices.isRollDouble(),
+            firstNumber: this.dices.returnFirstDiceNumber(),
+            secondNumber: this.dices.returnSecondDiceNumber(),
+        };
+        return diceRollInfo;
     }
 
     incrementPlayerPosition(diceRoll) {
-        this.playerPositions[this.currentPlayer] += diceRoll % BOARD_LIMIT;
+        this.players[this.currentPlayer].position = (this.players[this.currentPlayer].position + diceRoll)% BOARD_LIMIT;
     }
 
     endTurn() {
@@ -109,9 +112,10 @@ class Game {
 
     renderPlayArea() {
         this.drawBoard();
+        console.log(this.players);
     }
 
-
+    // For testing Purposes
 
     drawBoard() {
         let board = document.getElementById("board");
