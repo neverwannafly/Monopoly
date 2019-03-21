@@ -50,21 +50,42 @@ class Game {
         return this.getPlayer(this.getProperty(propid).getOwner());
     }
 
-    checkPropertyLinearity(propid) {
-        let props = this.getPlayer().returnSameProps(propid);
-        props.push(propid);
-        let lowCount = 5;
-        let highCount = 0;
-        for (let i in props) {
-            let assets = this.getProperty(props[i]).getAssets();
-            if (assets < lowCount) {
-                lowCount = assets;
+    checkPropertyLinearity(propid, destroy=false) {
+        if (!destroy) {
+            let props = this.getPlayer().returnSameProps(propid);
+            props.push(propid);
+            this.getProperty(propid).buildHouse();
+            let lowCount = 5;
+            let highCount = 0;
+            for (let i in props) {
+                let assets = this.getProperty(props[i]).getAssets();
+                if (assets < lowCount) {
+                    lowCount = assets;
+                }
+                if (assets > highCount) {
+                    highCount = assets;
+                }
             }
-            if (assets > highCount) {
-                highCount = assets;
+            this.getProperty(propid).destroyHouse();
+            return (highCount - lowCount <= 1) && (highCount - lowCount >=0) && (highCount<=5);
+        } else {
+            let props = this.getPlayer().returnSameProps(propid);
+            props.push(propid);
+            this.getProperty(propid).destroyHouse();
+            let lowCount = 5;
+            let highCount = 0;
+            for (let i in props) {
+                let assets = this.getProperty(props[i]).getAssets();
+                if (assets < lowCount) {
+                    lowCount = assets;
+                }
+                if (assets > highCount) {
+                    highCount = assets;
+                }
             }
+            this.getProperty(propid).buildHouse();
+            return (highCount - lowCount <= 1) && (highCount - lowCount >=0) && (highCount<=5);
         }
-        return (highCount - lowCount <= 1) && (highCount - lowCount >=0) && (highCount<=5);
     }
 
     getPropertyRent() {
@@ -228,7 +249,9 @@ class Game {
 
     }
 
-    can
+    canDestroyHouse(propid) {
+
+    }
 
     incrementPlayerPosition(diceRoll) {
         let initPos = this.getPlayer().position;
