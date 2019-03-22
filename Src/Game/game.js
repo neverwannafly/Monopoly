@@ -24,6 +24,10 @@ class Game {
         return this.currentPlayer;
     }
 
+    getBank() {
+        return this.bank;
+    }
+
     getPlayer(playerId=undefined) {
         return playerId ? this.players[this.getIndexById(playerId)] : this.players[this.currentPlayer];
     }
@@ -102,6 +106,17 @@ class Game {
         return rent;
     }
 
+    performBankTransaction(amount, byBank=false) {
+        // byBank: true means if bank needs to pay money
+        if (byBank) {
+            this.getPlayer().recieveMoney(amount);
+            this.getBank().payMoney(amount);
+        } else {
+            this.getPlayer().payMoney(amount);
+            this.getBank().recieveMoney(amount);
+        }
+    }
+
     // Calculate Player's purchasing power
     calculateMortagedWorth() {
         let properties = this.getPlayer().properties;
@@ -161,7 +176,7 @@ class Game {
     }
 
     passGo() {
-        this.getPlayer().recieveMoney(200);
+        this.performBankTransaction(200, true);
         let transaction = {
             type: 0,
             messgae: `${this.getPlayer().name} gets ${this.currency}200 for passing GO`,
@@ -185,7 +200,7 @@ class Game {
 
     buyProp() {
         if (this.canBuyProp()) {
-            this.getPlayer().payMoney(this.getPropertyCost());
+            this.performBankTransaction(this.getPropertyCost());
             this.getPlayer().addProperty(this.getProperty().getId());
             this.getProperty().setOwner(this.getPlayer().getId());
             let transaction = {
@@ -248,7 +263,7 @@ class Game {
         
         let cost = this.getPropertyHouseCost();
 
-        plyr.payMoney(cost);
+        this.performBankTransaction(cost);
         prop.buildHouse();
 
         let transaction = {
@@ -276,7 +291,7 @@ class Game {
         
         let cost = this.getPropertyHouseCost();
 
-        plyr.recieveMoney(cost);
+        this.performBankTransaction(cost, true);
         prop.destroyHouse();
 
         let transaction = {
@@ -301,7 +316,7 @@ class Game {
 
         let cost = this.getPropertyCost()/2;
 
-        this.getPlayer().recieveMoney(cost);
+        this.performBankTransaction(cost, true);
         this.getProperty(propid).mortageProperty();
 
         let transaction = {
@@ -315,7 +330,7 @@ class Game {
         return this.getProperty(propid).type===1 && this.getProperty(propid).getOwner()===this.getPlayer().getId() && this.getProperty().isMortaged() && this.getPlayerBalance() > cost;
     }
     
-    mortageProperty(propid) {
+    unmortageProperty(propid) {
 
         let cost = (this.getPropertyCost * 1.2)/2;
 
@@ -327,7 +342,7 @@ class Game {
             return transaction;
         }
 
-        this.getPlayer().payMoney(cost);
+        this.performBankTransaction(cost);
         this.getProperty(propid).unmortageProperty();
 
         let transaction = {
