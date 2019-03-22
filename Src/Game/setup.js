@@ -84,6 +84,8 @@ function dicesSetup() {
     return new Dices(randomFunction1, randomFunction2);
 }
 
+// Need to further make this better
+
 function bankSetup(gameid) {
     let bankid = Math.random()*10000;
     return new Bank(gameid, bankid);
