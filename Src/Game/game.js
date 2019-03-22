@@ -1,7 +1,8 @@
 BOARD_LIMIT = 40;
 
 class Game {
-    constructor(playersArr, gameMode="UK") {
+    constructor(gameid, playersArr, gameMode="UK") {
+        this.gameid = gameid;
         this.board = boardSetup(gameMode);
         this.currency = getCurrency(gameMode);
         this.communityChest = cardSetup("COMMUNITY_CHEST", gameMode);
