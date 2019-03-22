@@ -84,6 +84,11 @@ function dicesSetup() {
     return new Dices(randomFunction1, randomFunction2);
 }
 
+function bankSetup(gameid) {
+    let bankid = Math.random()*10000;
+    return new Bank(gameid, bankid);
+}
+
 function playerSetup(playersArr) {
     let players = [];
     for (let i=0; i<playersArr.length; i++) {
