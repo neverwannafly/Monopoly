@@ -16,6 +16,7 @@ let playersArr = [{
     name: "Spandan"
 }];
 
-let game = new Game(playersArr, "USA")
+let gameid = 54678;
+let game = new Game(gameid, playersArr, "USA")
 
 game.renderPlayArea();
