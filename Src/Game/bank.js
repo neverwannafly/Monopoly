@@ -1,7 +1,7 @@
 class Bank {
-    constructor(bankid) {
+    constructor(gameid, bankid) {
+        this.gameid = gameid;
         this.bankid = bankid;
-        this.name = name;
         this.balance = 1500;      
     }
 
