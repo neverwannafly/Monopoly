@@ -1,28 +1,27 @@
-let PAY_MONEY = {
-	id: 1,
-	
-};
 let MOVE_SPACES = {
+	id: 1,
+};
+let PAY_MONEY = {
 	id: 2,
 };
-let GO_TO_JAIL = {
+let RECIEVE_MONEY = {
 	id: 3,
 };
-let RECIEVE_MONEY = {
+let GO_TO_JAIL = {
 	id: 4,
 };
-let PICK_CHANCE = {
+let PASS_GO = {
 	id: 5,
 };
-let PICK_COMMUNITY_CHEST = {
+let PICK_CHANCE = {
 	id: 6,
 };
-let PASS_GO = {
+let PICK_COMMUNITY_CHEST = {
 	id: 7,
 };
-let AUCTION = {
+let MORTGAGE = {
 	id: 8,
 };
-let MORTGAGE = {
-	id:: 9,
+let AUCTION = {
+	id: 9,
 };
