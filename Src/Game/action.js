@@ -1,36 +1,9 @@
-let MOVE_SPACES = {
-	id: 1,
-	data: null,
-};
-let PAY_MONEY = {
-	id: 2,
-	data: null,
-};
-let RECIEVE_MONEY = {
-	id: 3,
-	data: null,
-};
-let GO_TO_JAIL = {
-	id: 4,
-	data: null,
-};
-let PASS_GO = {
-	id: 5,
-	data: null,
-};
-let PICK_CHANCE = {
-	id: 6,
-	data: null,
-};
-let PICK_COMMUNITY_CHEST = {
-	id: 7,
-	data: null,
-};
-let MORTGAGE = {
-	id: 8,
-	data: null,
-};
-let AUCTION = {
-	id: 9,
-	data: null,
-};
+let MOVE_SPACES = 11;
+let PAY_MONEY = 12;
+let RECIEVE_MONEY = 13;
+let GO_TO_JAIL = 14;
+let PASS_GO = 15;
+let PICK_CHANCE = 16;
+let PICK_COMMUNITY_CHEST = 17;
+let MORTGAGE = 18;
+let AUCTION = 19;
