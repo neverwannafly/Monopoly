@@ -28,8 +28,8 @@ class Square {
             this.rent = rent; 
             // If the square has an owner, his/her id is stored here; -1 if none
             this.owner = -1;  
-            // Stores if the square has a mortage value
-            this.mortage = false;
+            // Stores if the square has a mortgage value
+            this.mortgage = false;
             // Hotels and houses built on the square, multiplicative squares wont have any houses or hotels built on them
             this.assets = 0;
         }
@@ -75,16 +75,16 @@ class Square {
         this.assets -= 1;
     }
 
-    isMortaged() {
-        return this.mortage;
+    isMortgaged() {
+        return this.mortgage;
     }
 
-    mortageProperty() {
-        this.mortage = true;
+    mortgageProperty() {
+        this.mortgage = true;
     }
 
-    unmortageProperty() {
-        this.mortage = false;
+    unmortgageProperty() {
+        this.mortgage = false;
     }
 
     calculateRent(params) {

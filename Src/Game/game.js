@@ -135,25 +135,25 @@ class Game {
     }
 
     // Calculate Player's purchasing power
-    calculateMortagedWorth() {
+    calculateMortgagedWorth() {
         let properties = this.getPlayer().properties;
-        let mortagedWorth = 0;
+        let mortgagedWorth = 0;
         for (prop in properties) {
             let worth = this.board[prop].cost;
-            let isMortaged = this.board[prop].mortage;
+            let isMortgaged = this.board[prop].mortgage;
             let assets = this.board[prop].assets;
             let houseCost = this.board[prop].houseCost;
-            if (worth && !isMortaged) {
+            if (worth && !isMortgaged) {
                 // add value of properties
-                mortagedWorth += worth/2;
-                // Add house and hotel making cost. Mortages props will have assets = 0
-                mortagedWorth += assets * houseCost;
+                mortgagedWorth += worth/2;
+                // Add house and hotel making cost. Mortgages props will have assets = 0
+                mortgagedWorth += assets * houseCost;
             }
         }
 
-        mortagedWorth += this.playerBalance();
+        mortgagedWorth += this.playerBalance();
 
-        return mortagedWorth;
+        return mortgagedWorth;
     }
 
     calculateTotalNetworth() {
@@ -161,13 +161,13 @@ class Game {
         let totalNetWorth = 0;
         for (prop of properties) {
             let worth = this.board[prop].cost;
-            let isMortaged = this.board[prop].mortage;
+            let isMortgaged = this.board[prop].mortgage;
             let assets = this.board[prop].assets;
             let houseCost = this.board[prop].houseCost;
             if (worth) {
                 // add value of properties
-                totalNetWorth += isMortaged ? worth/2 : worth;
-                // Add house and hotel making cost. Mortages props will have assets = 0
+                totalNetWorth += isMortgaged ? worth/2 : worth;
+                // Add house and hotel making cost. Mortgages props will have assets = 0
                 totalNetWorth += assets * houseCost;
             }
         }
@@ -239,9 +239,9 @@ class Game {
     payRent() {
         
         let transaction = {};
-        if (this.getProperty().isMortaged()) {
+        if (this.getProperty().isMortgaged()) {
             transaction.type = MOVE_SPACES;
-            transaction.message = `${this.getPlayer().name} lands on a mortaged property ${this.getProperty().name}`;
+            transaction.message = `${this.getPlayer().name} lands on a mortgaged property ${this.getProperty().name}`;
             return transaction;
         }
 
@@ -314,49 +314,49 @@ class Game {
         return transaction;
     }
 
-    canMortage(propid) {
-        return this.getProperty(propid).type===1 && this.getProperty(propid).getOwner()===this.getPlayer().getId() && !this.getProperty().isMortaged();
+    canMortgage(propid) {
+        return this.getProperty(propid).type===1 && this.getProperty(propid).getOwner()===this.getPlayer().getId() && !this.getProperty().isMortgaged();
     }
     
-    mortageProperty(propid) {
+    mortgageProperty(propid) {
         let transaction = {};
-        if (!this.canMortage(propid)) {
-            transaction.type = CANNOT_MORTAGE;
-            transaction.message = `Cannot Mortage this property`;
+        if (!this.canMortgage(propid)) {
+            transaction.type = CANNOT_Mortgage;
+            transaction.message = `Cannot Mortgage this property`;
             return transaction;
         }
 
         let cost = this.getPropertyCost()/2;
 
         this.performBankTransaction(cost, true);
-        this.getProperty(propid).mortageProperty();
+        this.getProperty(propid).mortgageProperty();
 
-        transaction.type = MORTAGE;
-        transaction.message = `${this.getPlayer().name} mortaged ${this.getProperty().name}`;
+        transaction.type = Mortgage;
+        transaction.message = `${this.getPlayer().name} mortgaged ${this.getProperty().name}`;
         return transaction;
     }
 
-    canUnmortage(propid, cost) {
-        return this.getProperty(propid).type===1 && this.getProperty(propid).getOwner()===this.getPlayer().getId() && this.getProperty().isMortaged() && this.getPlayerBalance() > cost;
+    canUnmortgage(propid, cost) {
+        return this.getProperty(propid).type===1 && this.getProperty(propid).getOwner()===this.getPlayer().getId() && this.getProperty().isMortgaged() && this.getPlayerBalance() > cost;
     }
     
-    unmortageProperty(propid) {
+    unmortgageProperty(propid) {
 
         let unmortgageRate = 0.1;
         let cost = this.getPropertyCost/2 * unmortgageRate;
         let transaction = {};
 
-        if (!this.canUnmortage(propid, cost)) {
+        if (!this.canUnmortgage(propid, cost)) {
             transaction.type = CANNOT_UNMORTGAGE;
-            transaction.message = `Cannot Mortage this property`;
+            transaction.message = `Cannot Mortgage this property`;
             return transaction;
         }
 
         this.performBankTransaction(cost);
-        this.getProperty(propid).unmortageProperty();
+        this.getProperty(propid).unmortgageProperty();
 
         transaction.type = UNMORTGAGE;
-        transaction.message = `${this.getPlayer().name} unmortaged ${this.getProperty().name}`;
+        transaction.message = `${this.getPlayer().name} unmortgaged ${this.getProperty().name}`;
         return transaction;
     }
 
