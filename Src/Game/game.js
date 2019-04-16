@@ -13,6 +13,9 @@ class Game {
         this.players = playerSetup(playersArr);
         this.currentPlayer = 0; // Initially player[0] will make his move
         this.moves = 0;
+
+        shuffleCards(this.chance.arr);
+        shuffleCards(this.communityChest.arr);
     }
 
     getIndexById(playerId) {
