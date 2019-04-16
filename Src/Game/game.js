@@ -60,11 +60,11 @@ class Game {
     }
 
     drawChance() {
-        return this.chance.arr[this.chance.index.index++ % this.chance.arr.length];
+        return this.chance.arr[this.chance.index++ % this.chance.arr.length];
     }
 
     drawCommunityChest() {
-        return this.communityChest.arr[this.communityChest.index.index++ % this.communityChest.arr.length];
+        return this.communityChest.arr[this.communityChest.index++ % this.communityChest.arr.length];
     }
 
     checkPropertyLinearity(propid, destroy=false) {
@@ -331,10 +331,8 @@ class Game {
         this.performBankTransaction(cost, true);
         this.getProperty(propid).mortageProperty();
 
-        let transaction = {
-            type: MORTAGE,
-            message: `${this.getPlayer().name} mortaged ${this.getProperty().name}`,
-        }
+        transaction.type = MORTAGE;
+        transaction.message = `${this.getPlayer().name} mortaged ${this.getProperty().name}`;
         return transaction;
     }
 
