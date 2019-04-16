@@ -65,21 +65,24 @@ function getCurrency(gameMode="UK") {
 }
 
 function cardSetup(type, gameMode="UK") {
-    let cards = [];
+    let cards = {
+        arr: [],
+        index: 0,
+    };
     let cardDict = CARDS[type](gameMode);
     for (let key in cardDict) {
         let card = new Card(key, type, cardDict[key]["desc"], cardDict[key]["action"]);
-        cards.push(card);
+        cards.arr.push(card);
     }
     return cards;
 }
 
 function dicesSetup() {
     let randomFunction1 = function() {
-        return Math.floor(Math.random()*6) + 1;
+        return Math.ceil(Math.random()*6);
     };
     let randomFunction2 = function() {
-        return Math.floor(Math.random()*6) + 1;
+        return Math.ceil(Math.random()*6);
     };
     return new Dices(randomFunction1, randomFunction2);
 }
@@ -87,7 +90,7 @@ function dicesSetup() {
 // Need to further make this better
 
 function bankSetup(gameid) {
-    let bankid = Math.random()*10000;
+    let bankid = Math.floor(Math.random()*10000);
     return new Bank(gameid, bankid);
 }
 
