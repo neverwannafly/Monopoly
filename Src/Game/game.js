@@ -109,9 +109,15 @@ class Game {
     performBankTransaction(amount, byBank=false) {
         // byBank: true means if bank needs to pay money
         if (byBank) {
+            if (!this.bank.getBalance() >= amount) {
+                throw INSUFFICIENT_FUNDS;
+            }
             this.getPlayer().recieveMoney(amount);
             this.getBank().payMoney(amount);
         } else {
+            if (!this.getPlayerBalance() >= amount) {
+                throw INSUFFICIENT_FUNDS;
+            }
             this.getPlayer().payMoney(amount);
             this.getBank().recieveMoney(amount);
         }
@@ -176,11 +182,16 @@ class Game {
     }
 
     passGo() {
-        this.performBankTransaction(200, true);
-        let transaction = {
-            type: 0,
-            messgae: `${this.getPlayer().name} gets ${this.currency}200 for passing GO`,
+        let transaction = {};
+        try {
+            this.performBankTransaction(200, true);
+        } catch(error) {
+            transaction.type = error;
+            transaction.message = `Insufficient funds to perform transaction.`;
+            return transaction;
         }
+        transaction.type = PASS_GO;
+        transaction.message = `${this.getPlayer().name} gets ${this.currency}200 for passing GO`;
         return transaction;
     }
 
@@ -188,41 +199,38 @@ class Game {
         this.getPlayer().position = 10;
         this.getPlayer().isInFail = true;
         let transaction = {
-            type: 0,
+            type: GO_TO_JAIL,
             messgae: `${this.getPlayer().name} went to Jail`,
         }
         return transaction;
     }
 
     canBuyProp() {
+        // Ensures that performBankTransaction doesn't fail
         return this.getProperty().type===1 && this.getProperty().getOwner()===-1 && this.getPlayerBalance() > this.getPropertyCost();
     }
 
     buyProp() {
+        let transaction = {};
         if (this.canBuyProp()) {
             this.performBankTransaction(this.getPropertyCost());
             this.getPlayer().addProperty(this.getProperty().getId());
             this.getProperty().setOwner(this.getPlayer().getId());
-            let transaction = {
-                type: 1,
-                message: `${this.getPlayer().name} purchases ${this.getProperty().name} for ${this.currency}${this.getPropertyCost()}`,
-            };
+            transaction.type = BUY_PROPERTY,
+            transaction.message = `${this.getPlayer().name} purchases ${this.getProperty().name} for ${this.currency}${this.getPropertyCost()}`;
             return transaction;
         }
-        let error = {
-            type: 9,
-            message: "Transaction Failed as property is already bought",
-        }
+        transaction.type = CANNOT_BUY_PROPERTY;
+        transaction.message = "Transaction Failed as property is already bought, your funds are low or property cannot be bought.";
         return error;
     }
 
     payRent() {
         
+        let transaction = {};
         if (this.getProperty().isMortaged()) {
-            let transaction = {
-                type: 8,
-                message: `${this.getPlayer().name} lands on a mortaged property ${this.getProperty().name}`,
-            }
+            transaction.type = MOVE_SPACES;
+            transaction.message = `${this.getPlayer().name} lands on a mortaged property ${this.getProperty().name}`;
             return transaction;
         }
 
@@ -238,11 +246,10 @@ class Game {
         this.getPlayer().payMoney(rent);
         owner.recieveMoney(rent);
 
-        let transaction = {
-            type: 2,
-            pending: pending,
-            message: `${this.getPlayer().name} pays ${owner.name} ${this.currency}${rent} for ${this.getProperty().name}`,
-        }
+        transaction.type = PAY_MONEY;
+        transaction.pending = pending;
+        transaction.message = `${this.getPlayer().name} pays ${owner.name} ${this.currency}${rent} for ${this.getProperty().name}`;
+
         return transaction;
     }
 
@@ -253,11 +260,11 @@ class Game {
     buildHouse(propid) {
         let plyr = this.getPlayer();
         let prop = this.getProperty(propid);
+        let transaction = {};
+
         if (!this.canBuildHouse(propid)) {
-            let transaction = {
-                type: 9,
-                message: "Houses cannot be built at this property",
-            };
+            transaction.type = CANNOT_BUILD_HOUSES;
+            transaction.message = "Houses cannot be built at this property either because it's not yours, you've reached your max capacity, houses arent availabe with bank or this prop cant have houses.";
             return transaction;
         }
         
@@ -266,12 +273,9 @@ class Game {
         this.performBankTransaction(cost);
         prop.buildHouse();
 
-        let transaction = {
-            type: 3,
-            message: `${plyr.name} built a house on ${prop.name}`,
-        }
+        transaction.type = BUILD_HOUSE;
+        transaction.message = `${plyr.name} built a house on ${prop.name}`;
         return transaction;
-
     }
 
     canDestroyHouse(propid) {
@@ -281,11 +285,11 @@ class Game {
     destroyHouse(propid) {
         let plyr = this.getPlayer();
         let prop = this.getProperty(propid);
+        let transaction = {};
+
         if (!this.canDestroyHouse(propid)) {
-            let transaction = {
-                type: 9,
-                message: "Houses cannot be destroyed at this property",
-            };
+            transaction.type = CANNOT_DESTROY_HOUSES;
+            transaction.message = "Houses cannot be destroyed at this property";
             return transaction;
         }
         
@@ -294,10 +298,8 @@ class Game {
         this.performBankTransaction(cost, true);
         prop.destroyHouse();
 
-        let transaction = {
-            type: 3,
-            message: `${plyr.name} destroyed a house on ${prop.name}`,
-        }
+        transaction.type = DESTROY_HOUSE;
+        transaction.message = `${plyr.name} destroyed a house on ${prop.name}`;
         return transaction;
     }
 
@@ -306,11 +308,10 @@ class Game {
     }
     
     mortageProperty(propid) {
+        let transaction = {};
         if (!this.canMortage(propid)) {
-            let transaction = {
-                type: 9,
-                message: `Cannot Mortage this property`,
-            }
+            transaction.type = CANNOT_MORTAGE;
+            transaction.message = `Cannot Mortage this property`;
             return transaction;
         }
 
@@ -320,7 +321,7 @@ class Game {
         this.getProperty(propid).mortageProperty();
 
         let transaction = {
-            type: 7,
+            type: MORTAGE,
             message: `${this.getPlayer().name} mortaged ${this.getProperty().name}`,
         }
         return transaction;
@@ -332,23 +333,21 @@ class Game {
     
     unmortageProperty(propid) {
 
-        let cost = (this.getPropertyCost * 1.2)/2;
+        let unmortgageRate = 0.1;
+        let cost = this.getPropertyCost/2 * unmortgageRate;
+        let transaction = {};
 
         if (!this.canUnmortage(propid, cost)) {
-            let transaction = {
-                type: 9,
-                message: `Cannot Mortage this property`,
-            }
+            transaction.type = CANNOT_UNMORTGAGE;
+            transaction.message = `Cannot Mortage this property`;
             return transaction;
         }
 
         this.performBankTransaction(cost);
         this.getProperty(propid).unmortageProperty();
 
-        let transaction = {
-            type: 7,
-            message: `${this.getPlayer().name} unmortaged ${this.getProperty().name}`,
-        }
+        transaction.type = UNMORTGAGE;
+        transaction.message = `${this.getPlayer().name} unmortaged ${this.getProperty().name}`;
         return transaction;
     }
 
@@ -359,7 +358,10 @@ class Game {
         if (initPos + diceRoll > finalPos) {
             return this.passGo();
         }
-        return null;
+        return {
+            type: MOVE_SPACES,
+            message: `${this.getPlayer().name} rolled ${diceRoll.returnDiceSum()} to reach ${this.getProperty().name}`
+        };
     }
 
     endTurn() {
