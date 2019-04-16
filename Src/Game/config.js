@@ -470,7 +470,7 @@ let CARDS = {
                 desc: `Advance to "Go"!`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    
                 }
             },
             2: {

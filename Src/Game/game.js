@@ -59,6 +59,14 @@ class Game {
         return this.getPlayer(this.getProperty(propid).getOwner());
     }
 
+    drawChance() {
+        return this.chance.arr[this.chance.index.index++ % this.chance.arr.length];
+    }
+
+    drawCommunityChest() {
+        return this.communityChest.arr[this.communityChest.index.index++ % this.communityChest.arr.length];
+    }
+
     checkPropertyLinearity(propid, destroy=false) {
         if (!destroy) {
             let props = this.getPlayer().returnSameProps(propid);

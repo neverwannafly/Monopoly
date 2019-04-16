@@ -25,7 +25,3 @@ function shuffleCards(cards) {
         cards[randNumber] = temp;
     }
 }
-
-function draw(cards) {
-    return cards.arr[cards.index++ % cards.length];
-}
