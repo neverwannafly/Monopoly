@@ -2,7 +2,7 @@ class Bank {
     constructor(gameid, bankid) {
         this.gameid = gameid;
         this.bankid = bankid;
-        this.balance = 1500;      
+        this.balance = 30000;      
     }
 
     getId() {
