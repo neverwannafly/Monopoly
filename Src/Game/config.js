@@ -470,7 +470,7 @@ let CARDS = {
                 desc: `Advance to "Go"!`,
                 image: "assets/mascot/",
                 action: function(game) {
-                    
+
                 }
             },
             2: {
@@ -586,56 +586,73 @@ let CARDS = {
                 desc: `Advance to "Go"!`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    game.getPlayer().position = 0;
+                    return game.passGo();
                 }
             },
             2: {
                 desc:`Go to jail. Move directly to jail. Do not pass "Go". Do not collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
                 image: "assets/mascot/",
                 action: function(game) {
-                    
+                    return game.goToJail();
                 }
             },
             3: {
                 desc: `Advance to ${gameModes[gameMode]["locations"][11]["title"]}. If you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
                 image: "assets/mascot/",
                 action: function(game) {
-                    
+                    let initPos = game.getPlayer().position;
+                    let dest = 11;
+                    let diff = dest - initPos;
+                    if (initPos > dest) { diff += 40; }
+                    return game.incrementPlayerPosition(diff);
                 }
             }, 
             4: {
                 desc: `Take a trip to ${gameModes[gameMode]["locations"][15]["title"]} and if you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
                 image: "assets/mascot/",
                 action: function(game) {
-                    
+                    let initPos = game.getPlayer().position;
+                    let dest = 15;
+                    let diff = dest - initPos;
+                    if (initPos > dest) { diff += 40; }
+                    return game.incrementPlayerPosition(diff);
                 }
             }, 
             5: {
                 desc: `Advance to ${gameModes[gameMode]["locations"][24]["title"]}. If you pass "Go" collect ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*200}`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    let initPos = game.getPlayer().position;
+                    let dest = 24;
+                    let diff = dest - initPos;
+                    if (initPos > dest) { diff += 40; }
+                    return game.incrementPlayerPosition(diff);
                 }
             },
             6: {
                 desc: `Advance to ${gameModes[gameMode]["locations"][39]["title"]}`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    game.getPlayer().position = 39;
+                    return {
+                        type: MOVE_SPACES,
+                        message: `${game.getPlayer().name} advances to ${game.getProperty().name}`
+                    };
                 }
             },
             7: {
                 desc: `Go back three spaces`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    return game.incrementPlayerPosition(-3);
                 }
             },
             8: {
                 desc: `Make general repairs on all of your houses. For each house pay ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*25}. For each hotel pay ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*100}`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    
                 }
             },
             9: {
