@@ -106,6 +106,9 @@ class Game {
     }
 
     getPropertyRent() {
+        if (this.getProperty().type!==1) {
+            return 0;
+        }
         let owner = this.getPropertyOwner();
         let propid = this.getProperty().getId();
         let params = {
@@ -138,7 +141,7 @@ class Game {
     calculateMortgagedWorth() {
         let properties = this.getPlayer().properties;
         let mortgagedWorth = 0;
-        for (prop in properties) {
+        for (let prop in properties) {
             let worth = this.board[prop].cost;
             let isMortgaged = this.board[prop].mortgage;
             let assets = this.board[prop].assets;
@@ -159,7 +162,7 @@ class Game {
     calculateTotalNetworth() {
         let properties = this.getPlayer().properties;
         let totalNetWorth = 0;
-        for (prop of properties) {
+        for (let prop in properties) {
             let worth = this.board[prop].cost;
             let isMortgaged = this.board[prop].mortgage;
             let assets = this.board[prop].assets;
@@ -233,7 +236,7 @@ class Game {
         }
         transaction.type = CANNOT_BUY_PROPERTY;
         transaction.message = "Transaction Failed as property is already bought, your funds are low or property cannot be bought.";
-        return error;
+        return transaction;
     }
 
     payRent() {
@@ -246,6 +249,9 @@ class Game {
         }
 
         let owner = this.getPropertyOwner();
+        if (owner===this.currentPlayer) {
+            throw CANNOT_PAY_RENT_TO_YOURSELF;
+        }
         let rent = this.getPropertyRent();
         let pending = 0;
 
@@ -304,7 +310,7 @@ class Game {
             return transaction;
         }
         
-        let cost = this.getPropertyHouseCost();
+        let cost = this.getPropertyHouseCost()/2;
 
         this.performBankTransaction(cost, true);
         prop.destroyHouse();
@@ -369,7 +375,7 @@ class Game {
         }
         return {
             type: MOVE_SPACES,
-            message: `${this.getPlayer().name} rolled ${diceRoll.returnDiceSum()} to reach ${this.getProperty().name}`
+            message: `${this.getPlayer().name} rolled ${diceRoll} to reach ${this.getProperty().name}`
         };
     }
 
@@ -380,6 +386,10 @@ class Game {
 
     renderPlayArea() {
         this.drawBoard();
+        console.log(this.players);
+    }
+
+    printData() {
         console.log(this.players);
     }
 
