@@ -7,5 +7,5 @@ let insufficientFundHandler = function(game, amount, type, onSuccess) {
             message: `Insufficient funds to perform transaction.`
         }
     }
-    return onSuccess(game);
+    return onSuccess(game, amount);
 }
