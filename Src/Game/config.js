@@ -464,24 +464,6 @@ let gameModes = {
 };
 
 let CARDS = {
-    BONUS_CARDS: function(gameMode) {
-        return {
-            GET_OUT_OF_JAIL : {
-                title: "Get out of Jail",
-                image: "assets/mascot",
-                desc: "If you have this card, you can get out of jail for free!",
-                quantity: 2,
-                action: function(game) {
-                    game.getPlayer().inJail = false;
-                    return {
-                        type: GET_OUT_OF_JAIL,
-                        message: `${game.getPlayer()} got out of jail`,
-                        timestamp: game.getTimestamp(),
-                    }
-                }
-            }
-        }
-    },
     COMMUNITY_CHEST: function(gameMode) {
         return {
             1: {
@@ -803,12 +785,7 @@ let CARDS = {
                 desc: `Get out of jail free. This card may be kept until needed or sold`,
                 image: "assets/mascot/",
                 action: function(game) {
-                    // Prop id of get out of jail card drawn in chance is -1
-                    game.getPlayer().addProperty(GET_OUT_OF_JAIL);
-                    return {
-                    //     type: 
-                    // }
-                    }
+                    
                 }
             }
         }
