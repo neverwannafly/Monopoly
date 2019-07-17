@@ -30,6 +30,8 @@ let playerPaymentHandler = function(game, amount, otherPlayerId, type, onSuccess
         return {
             type: INSUFFICIENT_FUNDS,
             payee: type ? otherPlayerId: game.currentPlayer,
+            receiver: type ? game.currentPlayer : otherPlayerId,
+            amount: amount,
             message: `Insufficient funds to perform transaction. Need ${game.currency}${amount-game.getPlayerBalance()} more.`,
             timestamp: game.getTimestamp(),
         }
