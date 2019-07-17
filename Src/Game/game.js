@@ -13,6 +13,7 @@ class Game {
         this.players = playerSetup(playersArr);
         this.currentPlayer = 0; // Initially player[0] will make his move
         this.moves = 0;
+        this.history = [];
 
         shuffleCards(this.chance.arr);
         shuffleCards(this.communityChest.arr);
@@ -60,11 +61,11 @@ class Game {
     }
 
     drawChance() {
-        return this.chance.arr[this.chance.index++ % this.chance.arr.length];
+        return this.chance.arr[this.chance.index++ % this.chance.arr.length].issueAction(this);
     }
 
     drawCommunityChest() {
-        return this.communityChest.arr[this.communityChest.index++ % this.communityChest.arr.length];
+        return this.communityChest.arr[this.communityChest.index++ % this.communityChest.arr.length].issueAction(this);
     }
 
     checkPropertyLinearity(propid, destroy=false) {
@@ -137,6 +138,22 @@ class Game {
         }
     }
 
+    performPlayerTransaction(amount, otherPlayerId, isReceiving=true) {
+        if (isReceiving) {
+            if (!this.getPlayerBalance(otherPlayerId) >= amount) {
+                throw INSUFFICIENT_FUNDS;
+            }
+            this.getPlayer(otherPlayerId).payMoney(amount);
+            this.getPlayer().recieveMoney(amount);
+        } else {
+            if (!this.getPlayerBalance() >= amount) {
+                throw INSUFFICIENT_FUNDS;
+            }
+            this.getPlayer().payMoney(amount);
+            this.getPlayer(otherPlayerId).recieveMoney(amount);
+        }
+    }
+
     // Calculate Player's purchasing power
     calculateMortgagedWorth() {
         let properties = this.getPlayer().properties;
@@ -150,7 +167,7 @@ class Game {
                 // add value of properties
                 mortgagedWorth += worth/2;
                 // Add house and hotel making cost. Mortgages props will have assets = 0
-                mortgagedWorth += assets * houseCost;
+                mortgagedWorth += (assets * houseCost)/2;
             }
         }
 
@@ -196,26 +213,28 @@ class Game {
     }
 
     passGo() {
-        let transaction = {};
-        try {
-            this.performBankTransaction(200, true);
-        } catch(error) {
-            transaction.type = error;
-            transaction.message = `Insufficient funds to perform transaction.`;
-            return transaction;
-        }
-        transaction.type = PASS_GO;
-        transaction.message = `${this.getPlayer().name} gets ${this.currency}200 for passing GO`;
+        const goAmount = 200;
+        let transaction = bankPaymentHandler(this, goAmount, true, function(game, amount){ 
+            return {
+                type: PASS_GO,
+                message: `${game.getPlayer().name} gets ${game.currency}${amount} for passing GO`,
+                timestamp: new Date().toLocaleString(),
+            }
+        });
+        this.history.push(transaction);
         return transaction;
     }
 
     goToJail() {
-        this.getPlayer().position = 10;
+        const jailPosition = 10;
+        this.getPlayer().position = jailPosition;
         this.getPlayer().isInFail = true;
         let transaction = {
             type: GO_TO_JAIL,
             messgae: `${this.getPlayer().name} went to Jail`,
+            timestamp: new Date().toLocaleString(),
         }
+        this.history.push(transaction);
         return transaction;
     }
 
@@ -227,46 +246,53 @@ class Game {
     buyProp() {
         let transaction = {};
         if (this.canBuyProp()) {
-            this.performBankTransaction(this.getPropertyCost());
-            this.getPlayer().addProperty(this.getProperty().getId());
-            this.getProperty().setOwner(this.getPlayer().getId());
-            transaction.type = BUY_PROPERTY,
-            transaction.message = `${this.getPlayer().name} purchases ${this.getProperty().name} for ${this.currency}${this.getPropertyCost()}`;
+            transaction = bankPaymentHandler(this, this.getPropertyCost(), false, function(game, amount){
+                game.getPlayer().addProperty(game.getProperty().getId());
+                game.getProperty().setOwner(game.getPlayer().getId());
+                return {
+                    type: BUY_PROPERTY,
+                    message: `${game.getPlayer().name} purchases ${game.getProperty().name} for ${game.currency}${amount}`,
+                    timestamp: new Date().toLocaleString(),
+                };
+            });
+            this.history.push(transaction);
             return transaction;
         }
         transaction.type = CANNOT_BUY_PROPERTY;
-        transaction.message = "Transaction Failed as property is already bought, your funds are low or property cannot be bought.";
+        transaction.message = `Transaction Failed as property is already bought, your funds are low or property cannot be bought.`;
+        transaction.timestamp = new Date().toLocaleString();
         return transaction;
     }
 
     payRent() {
-        
         let transaction = {};
         if (this.getProperty().isMortgaged()) {
             transaction.type = MOVE_SPACES;
             transaction.message = `${this.getPlayer().name} lands on a mortgaged property ${this.getProperty().name}`;
+            transaction.timestamp = new Date().toLocaleString();
+            this.history.push(transaction);
             return transaction;
         }
 
         let owner = this.getPropertyOwner();
         if (owner===this.currentPlayer) {
-            throw CANNOT_PAY_RENT_TO_YOURSELF;
+            transaction.type = INVALID_RESPONSE;
+            transaction.message = `${this.getPlayer().name} submitted an invalid response`;
+            transaction.timestamp = new Date().toLocaleString();
+            this.history.push(transaction);
+            return transaction;
         }
+
         let rent = this.getPropertyRent();
-        let pending = 0;
+        transaction = playerPaymentHandler(this, rent, owner, false, function(game, amount, otherPlayerId){
+            return {
+                type: PAY_MONEY,
+                message: `${game.getPlayer().name} pays ${game.currency}${amount} to ${game.getPlayer(otherPlayerId)} for ladning on ${game.getProperty()}`,
+                timestamp: new Date().toLocaleString(),
+            };
+        });
 
-        if (rent > this.getPlayerBalance()) {
-            pending = rent - this.getPlayerBalance();
-            rent = this.getPlayerBalance();
-        }
-
-        this.getPlayer().payMoney(rent);
-        owner.recieveMoney(rent);
-
-        transaction.type = PAY_MONEY;
-        transaction.pending = pending;
-        transaction.message = `${this.getPlayer().name} pays ${owner.name} ${this.currency}${rent} for ${this.getProperty().name}`;
-
+        this.history.push(transaction);
         return transaction;
     }
 
@@ -327,7 +353,7 @@ class Game {
     mortgageProperty(propid) {
         let transaction = {};
         if (!this.canMortgage(propid)) {
-            transaction.type = CANNOT_Mortgage;
+            transaction.type = CANNOT_MORTGAGE;
             transaction.message = `Cannot Mortgage this property`;
             return transaction;
         }
@@ -380,7 +406,7 @@ class Game {
     }
 
     endTurn() {
-        this.moves += (this.currentPlayer/3);
+        this.moves += (this.currentPlayer/this.players.length);
         this.currentPlayer = (this.currentPlayer + 1) % this.players.length;
     }
 
