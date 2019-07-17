@@ -19,6 +19,10 @@ class Game {
         shuffleCards(this.communityChest.arr);
     }
 
+    getTimestamp() {
+        return Date().toLocaleString();
+    }
+
     getIndexById(playerId) {
         for (let pl in this.players) {
             if (this.players[pl].getId() === playerId) {
@@ -218,7 +222,7 @@ class Game {
             return {
                 type: PASS_GO,
                 message: `${game.getPlayer().name} gets ${game.currency}${amount} for passing GO`,
-                timestamp: new Date().toLocaleString(),
+                timestamp: this.getTimestamp(),
             }
         });
         this.history.push(transaction);
@@ -232,7 +236,7 @@ class Game {
         let transaction = {
             type: GO_TO_JAIL,
             messgae: `${this.getPlayer().name} went to Jail`,
-            timestamp: new Date().toLocaleString(),
+            timestamp: this.getTimestamp(),
         }
         this.history.push(transaction);
         return transaction;
@@ -252,7 +256,7 @@ class Game {
                 return {
                     type: BUY_PROPERTY,
                     message: `${game.getPlayer().name} purchases ${game.getProperty().name} for ${game.currency}${amount}`,
-                    timestamp: new Date().toLocaleString(),
+                    timestamp: this.getTimestamp(),
                 };
             });
             this.history.push(transaction);
@@ -260,7 +264,7 @@ class Game {
         }
         transaction.type = CANNOT_BUY_PROPERTY;
         transaction.message = `Transaction Failed as property is already bought, your funds are low or property cannot be bought.`;
-        transaction.timestamp = new Date().toLocaleString();
+        transaction.timestamp = this.getTimestamp();
         return transaction;
     }
 
@@ -269,7 +273,7 @@ class Game {
         if (this.getProperty().isMortgaged()) {
             transaction.type = MOVE_SPACES;
             transaction.message = `${this.getPlayer().name} lands on a mortgaged property ${this.getProperty().name}`;
-            transaction.timestamp = new Date().toLocaleString();
+            transaction.timestamp = this.getTimestamp();
             this.history.push(transaction);
             return transaction;
         }
@@ -278,7 +282,7 @@ class Game {
         if (owner===this.currentPlayer) {
             transaction.type = INVALID_RESPONSE;
             transaction.message = `${this.getPlayer().name} submitted an invalid response`;
-            transaction.timestamp = new Date().toLocaleString();
+            transaction.timestamp = this.getTimestamp();
             this.history.push(transaction);
             return transaction;
         }
@@ -288,7 +292,7 @@ class Game {
             return {
                 type: PAY_MONEY,
                 message: `${game.getPlayer().name} pays ${game.currency}${amount} to ${game.getPlayer(otherPlayerId)} for ladning on ${game.getProperty()}`,
-                timestamp: new Date().toLocaleString(),
+                timestamp: this.getTimestamp(),
             };
         });
 
