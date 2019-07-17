@@ -10,6 +10,8 @@ let bankPaymentHandler = function(game, amount, type, onSuccess) {
         return {
             type: INSUFFICIENT_FUNDS,
             payee: type ? -1 : game.currentPlayer, // -1 indicates a payment fault by the bank
+            receiver: type ? game.currentPlayer : -1,
+            amount: amount,
             message: `Insufficient funds to perform transaction. Need ${game.currency}${amount-game.getPlayerBalance()} more`,
             timestamp: game.getTimestamp(),
         }
