@@ -223,7 +223,7 @@ class Game {
             return {
                 type: PASS_GO,
                 message: `${game.getPlayer().name} gets ${game.currency}${amount} for passing GO`,
-                timestamp: this.getTimestamp(),
+                timestamp: game.getTimestamp(),
             }
         });
         this.history.push(transaction);
@@ -281,9 +281,7 @@ class Game {
 
         let owner = this.getPropertyOwner();
         if (owner===this.currentPlayer) {
-            transaction.type = INVALID_RESPONSE;
-            transaction.message = `${this.getPlayer().name} submitted an invalid response`;
-            transaction.timestamp = this.getTimestamp();
+            transaction = invalidResponseHandler(game);
             this.history.push(transaction);
             return transaction;
         }
