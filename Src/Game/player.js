@@ -20,7 +20,7 @@ class Player {
         return this.balance;
     }
 
-    recieveMoney(amount) {
+    receiveMoney(amount) {
         this.balance += amount;
     }
 

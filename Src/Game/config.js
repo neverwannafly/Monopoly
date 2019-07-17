@@ -541,7 +541,7 @@ let CARDS = {
                     let amount = 200;
                     return bankPaymentHandler(game, amount, true, function(game, amount){
                         return {
-                            type: RECIEVE_MONEY,
+                            type: RECEIVE_MONEY,
                             message: `${game.getPlayer().name} receives ${game.currency}${amount} from bank`,
                             timestamp: game.getTimestamp(),
                         }
@@ -555,7 +555,7 @@ let CARDS = {
                     let amount = 100;
                     return bankPaymentHandler(game, amount, true, function(game, amount){
                         return {
-                            type: RECIEVE_MONEY,
+                            type: RECEIVE_MONEY,
                             message: `${game.getPlayer().name} receives ${game.currency}${amount} from bank`,
                             timestamp: game.getTimestamp(),
                         }
@@ -569,7 +569,7 @@ let CARDS = {
                     let amount = 150;
                     return bankPaymentHandler(game, amount, true, function(game, amount){
                         return {
-                            type: RECIEVE_MONEY,
+                            type: RECEIVE_MONEY,
                             message: `${game.getPlayer().name} gets ${game.currency}${amount} from bank`,
                             timestamp: game.getTimestamp(),
                         }
@@ -583,7 +583,7 @@ let CARDS = {
                     let amount = 50;
                     return bankPaymentHandler(game, amount, true, function(game, amount){
                         return {
-                            type: RECIEVE_MONEY,
+                            type: RECEIVE_MONEY,
                             message: `${game.getPlayer().name} gets ${game.currency}${amount} from sale of stock`,
                             timestamp: game.getTimestamp(),
                         }
@@ -597,7 +597,7 @@ let CARDS = {
                     let amount = 25;
                     return bankPaymentHandler(game, amount, true, function(game, amount){
                         return {
-                            type: RECIEVE_MONEY,
+                            type: RECEIVE_MONEY,
                             message: `${game.getPlayer().name} gets ${game.currency}${amount} from bank`,
                             timestamp: game.getTimestamp(),
                         }
@@ -611,7 +611,7 @@ let CARDS = {
                     let amount = 20;
                     return bankPaymentHandler(game, amount, true, function(game, amount){
                         return {
-                            type: RECIEVE_MONEY,
+                            type: RECEIVE_MONEY,
                             message: `${game.getPlayer().name} gets ${game.currency}${amount} from bank`,
                             timestamp: game.getTimestamp(),
                         }
@@ -625,7 +625,7 @@ let CARDS = {
                     let amount = 10;
                     return bankPaymentHandler(game, amount, true, function(game, amount){
                         return {
-                            type: RECIEVE_MONEY,
+                            type: RECEIVE_MONEY,
                             message: `${game.getPlayer().name} gets ${game.currency}${amount} winnings from beauty contest`,
                             timestamp: game.getTimestamp(),
                         }
@@ -870,7 +870,7 @@ let CARDS = {
                     let amount = 150;
                     return bankPaymentHandler(game, amount, true, function(game, amount) {
                         return {
-                            type: RECIEVE_MONEY,
+                            type: RECEIVE_MONEY,
                             message: `${game.getPlayer().name} gets ${game.currency}${amount} for building loan maturity`,
                             timestamp: game.getTimestamp(),
                         }
@@ -884,7 +884,7 @@ let CARDS = {
                     let amount = 100;
                     return bankPaymentHandler(game, amount, true, function(game, amount) {
                         return {
-                            type: RECIEVE_MONEY,
+                            type: RECEIVE_MONEY,
                             message: `${game.getPlayer().name} gets ${game.currency}${amount} for winning crossword competition`,
                             timestamp: game.getTimestamp(),
                         }
@@ -898,7 +898,7 @@ let CARDS = {
                     let amount = 50;
                     return bankPaymentHandler(game, amount, true, function(game, amount) {
                         return {
-                            type: RECIEVE_MONEY,
+                            type: RECEIVE_MONEY,
                             message: `${game.getPlayer().name} gets ${game.currency}${amount} as dividend`,
                             timestamp: game.getTimestamp(),
                         }

@@ -132,14 +132,14 @@ class Game {
             if (!this.bank.getBalance() >= amount) {
                 throw INSUFFICIENT_FUNDS;
             }
-            this.getPlayer().recieveMoney(amount);
+            this.getPlayer().receiveMoney(amount);
             this.getBank().payMoney(amount);
         } else {
             if (!this.getPlayerBalance() >= amount) {
                 throw INSUFFICIENT_FUNDS;
             }
             this.getPlayer().payMoney(amount);
-            this.getBank().recieveMoney(amount);
+            this.getBank().receiveMoney(amount);
         }
     }
 
@@ -149,13 +149,13 @@ class Game {
                 throw INSUFFICIENT_FUNDS;
             }
             this.getPlayer(otherPlayerId).payMoney(amount);
-            this.getPlayer().recieveMoney(amount);
+            this.getPlayer().receiveMoney(amount);
         } else {
             if (!this.getPlayerBalance() >= amount) {
                 throw INSUFFICIENT_FUNDS;
             }
             this.getPlayer().payMoney(amount);
-            this.getPlayer(otherPlayerId).recieveMoney(amount);
+            this.getPlayer(otherPlayerId).receiveMoney(amount);
         }
     }
 
