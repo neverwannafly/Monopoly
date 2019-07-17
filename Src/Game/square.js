@@ -32,6 +32,13 @@ class Square {
             this.mortgage = false;
             // Hotels and houses built on the square, multiplicative squares wont have any houses or hotels built on them
             this.assets = 0;
+
+            this.action = function(game) {
+                return {
+                    type: NO_ACTION,
+                    message: "No action taken",
+                };
+            }
         }
 
         if (!type) {
@@ -104,8 +111,12 @@ class Square {
         }
     }
 
-    triggerSquare() {
-        this.action();
+    assignAction(action) {
+        this.action = action;
+    }
+
+    issueAction(game) {
+        this.action(game);
     }
 
 };
