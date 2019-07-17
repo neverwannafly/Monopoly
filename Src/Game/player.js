@@ -7,6 +7,7 @@ class Player {
         this.inJail = false;
         this.isBankrupt = false;
         this.properties = []; // array of propertyid's 
+        this.cards = []; // contains any commuinty chest or chance cards a player may get
         this.position = 0; // current player posn. Initially they all are at zero
         this.balance = 1500;      
     }

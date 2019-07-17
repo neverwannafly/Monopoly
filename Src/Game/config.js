@@ -464,6 +464,24 @@ let gameModes = {
 };
 
 let CARDS = {
+    BONUS_CARDS: function(gameMode) {
+        return {
+            GET_OUT_OF_JAIL : {
+                title: "Get out of Jail",
+                image: "assets/mascot",
+                desc: "If you have this card, you can get out of jail for free!",
+                quantity: 2,
+                action: function(game) {
+                    game.getPlayer().inJail = false;
+                    return {
+                        type: GET_OUT_OF_JAIL,
+                        message: `${game.getPlayer()} got out of jail`,
+                        timestamp: game.getTimestamp(),
+                    }
+                }
+            }
+        }
+    },
     COMMUNITY_CHEST: function(gameMode) {
         return {
             1: {
@@ -575,7 +593,7 @@ let CARDS = {
                 desc: `Get out of jail free. This card may be kept until needed or sold`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    // Prop id of get out of jail card drawn in community chest is -2
                 }
             }
         }
@@ -637,7 +655,8 @@ let CARDS = {
                     game.getPlayer().position = 39;
                     return {
                         type: MOVE_SPACES,
-                        message: `${game.getPlayer().name} advances to ${game.getProperty().name}`
+                        message: `${game.getPlayer().name} advances to ${game.getProperty().name}`,
+                        timestamp: game.getTimestamp(),
                     };
                 }
             },
@@ -652,63 +671,144 @@ let CARDS = {
                 desc: `Make general repairs on all of your houses. For each house pay ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*25}. For each hotel pay ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*100}`,
                 image: "assets/mascot/",
                 action: function(game) {
-                    
+                    let properties = game.players[game.currentPlayer].properties;
+                    let houses = 0, hotels = 0;
+                    for (let propid in properties) {
+                        let assets = game.board[propid].assets;
+                        if (assets===5) {
+                            hotels += 1;
+                        } else {
+                            houses += assets;
+                        }
+                    }
+                    let cost = houses*gameModes[gameMode]["multiplier"]*25 + hotels*gameModes[gameMode]["multiplier"]*100;
+                    return bankPaymentHandler(game, cost, false, function(game, amount){
+                        return {
+                            type: PAY_MONEY,
+                            message: `${game.getPlayer().name} pays ${game.currency}${amount} for general repairs`,
+                            timestamp: game.getTimestamp(),
+                        }
+                    });
                 }
             },
             9: {
                 desc: `You are assessed for street repairs: ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*40} per house, ${gameModes[gameMode]["currency"]}${gameModes[gameMode]["multiplier"]*115} per hotel`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    let properties = game.players[game.currentPlayer].properties;
+                    let houses = 0, hotels = 0;
+                    for (let propid in properties) {
+                        let assets = game.board[propid].assets;
+                        if (assets===5) {
+                            hotels += 1;
+                        } else {
+                            houses += assets;
+                        }
+                    }
+                    let cost = houses*gameModes[gameMode]["multiplier"]*40 + hotels*gameModes[gameMode]["multiplier"]*115;
+                    return bankPaymentHandler(game, cost, false, function(game, amount){
+                        return {
+                            type: PAY_MONEY,
+                            message: `${game.getPlayer().name} pays ${game.currency}${amount} for street repairs`,
+                            timestamp: game.getTimestamp(),
+                        }
+                    });
                 }
             },
             10: {
                 desc: `Pay school fees of ${gameModes[gameMode]["currency"]}150`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    let amount = 150;
+                    return bankPaymentHandler(game, amount, false, function(game, amount){
+                        return {
+                            type: PAY_MONEY,
+                            message: `${game.getPlayer().name} pays ${game.currency}${amount} as school fees`,
+                            timestamp: game.getTimestamp(),
+                        }
+                    });
                 }
             },
             11: {
                 desc: `"Drunk in charge" fine ${gameModes[gameMode]["currency"]}20`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    let amount = 20;
+                    return bankPaymentHandler(game, amount, false, function(game, amount){
+                        return {
+                            type: PAY_MONEY,
+                            message: `${game.getPlayer().name} pays ${game.currency}${amount} as "Drink in charge" fine`,
+                            timestamp: game.getTimestamp(),
+                        }
+                    });
                 }
             },
             12: {
                 desc: `Speeding fine ${gameModes[gameMode]["currency"]}15`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    let amount = 15;
+                    return bankPaymentHandler(game, amount, false, function(game, amount){
+                        return {
+                            type: PAY_MONEY,
+                            message: `${game.getPlayer().name} pays ${game.currency}${amount} as speeding fine`,
+                            timestamp: game.getTimestamp(),
+                        }
+                    });
                 }
             },
             13: {
                 desc: `Your building loan matures. Receive ${gameModes[gameMode]["currency"]}150`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    let amount = 150;
+                    return bankPaymentHandler(game, amount, true, function(game, amount) {
+                        return {
+                            type: RECIEVE_MONEY,
+                            message: `${game.getPlayer().name} gets ${game.currency}${amount} for building loan maturity`,
+                            timestamp: game.getTimestamp(),
+                        }
+                    });
                 }
             },
             14: {
                 desc: `You have won a crossword competition. Collect ${gameModes[gameMode]["currency"]}100`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    let amount = 100;
+                    return bankPaymentHandler(game, amount, true, function(game, amount) {
+                        return {
+                            type: RECIEVE_MONEY,
+                            message: `${game.getPlayer().name} gets ${game.currency}${amount} for winning crossword competition`,
+                            timestamp: game.getTimestamp(),
+                        }
+                    });
                 }
             },
             15: {
                 desc: `Bank pays you dividend of ${gameModes[gameMode]["currency"]}50`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    let amount = 50;
+                    return bankPaymentHandler(game, amount, true, function(game, amount) {
+                        return {
+                            type: RECIEVE_MONEY,
+                            message: `${game.getPlayer().name} gets ${game.currency}${amount} as dividend`,
+                            timestamp: game.getTimestamp(),
+                        }
+                    });
                 }
             },
             16: {
                 desc: `Get out of jail free. This card may be kept until needed or sold`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    // Prop id of get out of jail card drawn in chance is -1
+                    game.getPlayer().addProperty(GET_OUT_OF_JAIL);
+                    return {
+                    //     type: 
+                    // }
+                    }
                 }
             }
         }
