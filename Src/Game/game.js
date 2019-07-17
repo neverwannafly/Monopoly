@@ -14,6 +14,7 @@ class Game {
         this.currentPlayer = 0; // Initially player[0] will make his move
         this.moves = 0;
         this.history = [];
+        this.pending = []; // Array of pending transactions that must be cleared before a turn ends
 
         shuffleCards(this.chance.arr);
         shuffleCards(this.communityChest.arr);
