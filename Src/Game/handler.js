@@ -36,3 +36,14 @@ let playerPaymentHandler = function(game, amount, otherPlayerId, type, onSuccess
     }
     return onSuccess(game, amount, otherPlayerId);
 }
+
+let invalidResponseHandler = function(game, message=null) {
+    if (message===null) {
+        message = `${game.getPlayer()} submitted Invalid response`;
+    }
+    return {
+        type: INVALID_RESPONSE,
+        message: message,
+        timestamp: game.getTimestamp(),
+    }
+}
