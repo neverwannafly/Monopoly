@@ -648,9 +648,6 @@ let CARDS = {
                                     timestamp: game.getTimestamp(),
                                 }
                             });
-                            if (transaction.type===INSUFFICIENT_FUNDS) {
-                                game.pending.push(transaction);
-                            }
                             transactions.push(transaction);
                         }
                     }
@@ -661,7 +658,29 @@ let CARDS = {
                 desc: `Pay a ${gameModes[gameMode]["currency"]}10 fine or take a "Chance"`,
                 image: "assets/mascot/",
                 action: function(game) {
-
+                    const amount = 10;
+                    const newTransaction = {
+                        type: ISSUE_NEW_ACTION,
+                        choice: {
+                            1: `Pay a fine of ${game.currency}${amount}`,
+                            2: `Pick a Chance`,
+                        },
+                        action: function(game, choice) {
+                            if (choice===1) {
+                                return bankPaymentHandler(game, amount, false, function(game, amount){
+                                    return {
+                                        type: PAY_MONEY,
+                                        message: `${game.getPlayer().name} pays ${game.currency}${amount} as fine`,
+                                        timestamp: game.getTimestamp(),
+                                    }
+                                });
+                            } else {
+                                return game.drawChance();
+                            }
+                        }
+                    }
+                    game.pending.push(newTransaction);
+                    return newTransaction;
                 }
             },
             116: {
