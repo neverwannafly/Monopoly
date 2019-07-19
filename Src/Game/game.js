@@ -7,6 +7,7 @@ class Game {
         this.currency = getCurrency(gameMode);
         this.communityChest = cardSetup("COMMUNITY_CHEST", gameMode);
         this.chance = cardSetup("CHANCE", gameMode);
+        this.card = null // contains the most recent drawn card
         this.dices = dicesSetup();
         this.bank = bankSetup(gameid);
         // the playing order of players is same as indexing of the players array
@@ -66,11 +67,21 @@ class Game {
     }
 
     drawChance() {
-        return this.chance.arr[this.chance.index++ % this.chance.arr.length].issueAction(this);
+        this.card = this.chance.arr[this.chance.index++ % this.chance.arr.length]
+        return this.card.description;
     }
 
     drawCommunityChest() {
-        return this.communityChest.arr[this.communityChest.index++ % this.communityChest.arr.length].issueAction(this);
+        this.card = this.communityChest.arr[this.communityChest.index++ % this.communityChest.arr.length];
+        return this.card.description;
+    }
+
+    clearCard() {
+        this.card = null;
+    }
+
+    triggerCard() {
+        return this.card.issueAction(this);
     }
 
     checkPropertyLinearity(propid, destroy=false) {
