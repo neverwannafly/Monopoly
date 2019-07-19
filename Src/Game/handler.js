@@ -7,7 +7,7 @@ let bankPaymentHandler = function(game, amount, type, onSuccess) {
     try {
         game.performBankTransaction(amount, type);
     } catch(error) {
-        return {
+        let failedTransaction = {
             type: INSUFFICIENT_FUNDS,
             payee: type ? -1 : game.currentPlayer, // -1 indicates a payment fault by the bank
             receiver: type ? game.currentPlayer : -1,
@@ -15,6 +15,8 @@ let bankPaymentHandler = function(game, amount, type, onSuccess) {
             message: `Insufficient funds to perform transaction. Need ${game.currency}${amount-game.getPlayerBalance()} more`,
             timestamp: game.getTimestamp(),
         }
+        game.pending.push(failedTransaction);
+        return failedTransaction;
     }
     return onSuccess(game, amount);
 }
@@ -29,7 +31,7 @@ let playerPaymentHandler = function(game, amount, otherPlayerId, type, onSuccess
     try {
         game.performPlayerTransaction(amount, otherPlayerId, type);
     } catch(error) {
-        return {
+        let failedTransaction = {
             type: INSUFFICIENT_FUNDS,
             payee: type ? otherPlayerId: game.currentPlayer,
             receiver: type ? game.currentPlayer : otherPlayerId,
@@ -37,6 +39,8 @@ let playerPaymentHandler = function(game, amount, otherPlayerId, type, onSuccess
             message: `Insufficient funds to perform transaction. Need ${game.currency}${amount-game.getPlayerBalance()} more.`,
             timestamp: game.getTimestamp(),
         }
+        game.pending.push(failedTransaction);
+        return failedTransaction;
     }
     return onSuccess(game, amount, otherPlayerId);
 }
