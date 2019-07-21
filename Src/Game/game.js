@@ -68,12 +68,20 @@ class Game {
 
     drawChance() {
         this.card = this.chance.arr[this.chance.index++ % this.chance.arr.length]
-        return this.card.description;
+        return {
+            type: PICK_CHANCE,
+            message: this.card.description,
+            timestamp: this.getTimestamp(),
+        }
     }
 
     drawCommunityChest() {
         this.card = this.communityChest.arr[this.communityChest.index++ % this.communityChest.arr.length];
-        return this.card.description;
+        return {
+            type: PICK_COMMUNITY_CHEST,
+            message: this.card.description,
+            timestamp: this.getTimestamp(),
+        } 
     }
 
     clearCard() {
@@ -221,11 +229,14 @@ class Game {
     getDiceInfo() {
         let diceRollInfo = {
             diceSum: this.dices.returnDiceSum(),
-            isRollDouble: this.dices.isRollDouble(),
             firstNumber: this.dices.returnFirstDiceNumber(),
             secondNumber: this.dices.returnSecondDiceNumber(),
         };
-        return diceRollInfo;
+        return {
+            type: this.dices.isRollDouble() ? ROLL_DOUBLE : ROLL_DICE,
+            info: diceRollInfo,
+            timestamp: this.getTimestamp(),
+        }
     }
 
     passGo() {
@@ -408,14 +419,15 @@ class Game {
 
     incrementPlayerPosition(diceRoll) {
         let initPos = this.getPlayer().position;
-        this.getPlayer().position = (this.getPlayer().position + diceRoll)% BOARD_LIMIT;
+        this.getPlayer().position = (this.getPlayer().position + diceRoll + 40) % BOARD_LIMIT;
         let finalPos = this.getPlayer().position;
         if (initPos + diceRoll > finalPos) {
             return this.passGo();
         }
         return {
             type: MOVE_SPACES,
-            message: `${this.getPlayer().name} rolled ${diceRoll} to reach ${this.getProperty().name}`
+            message: `${this.getPlayer().name} lands on ${this.getProperty().name}`,
+            timestamp: this.getTimestamp(),
         };
     }
 
@@ -433,7 +445,7 @@ class Game {
         console.log(this.players);
     }
 
-    // For testing Purposes
+    // For testing Purposes. Wont be there in final application!
 
     drawBoard() {
         let board = document.getElementById("board");
