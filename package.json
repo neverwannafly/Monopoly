@@ -1,0 +1,9 @@
+{
+  "name": "monopoly",
+  "version": "1.0.0",
+  "description": "A webapp for playing monopoly",
+  "main": "index.js",
+  "repository": "https://github.com/neverwannafly/monopoly",
+  "author": "Shubham Anand",
+  "license": "MIT"
+}
