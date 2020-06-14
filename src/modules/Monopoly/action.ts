@@ -1,0 +1,20 @@
+// All action codes to begin with 2
+export const NO_ACTION             : number = 20;
+export const MOVE_SPACES           : number = 21;
+export const PAY_MONEY             : number = 22;
+export const RECEIVE_MONEY         : number = 23;
+export const GO_TO_JAIL            : number = 24;
+export const GET_OUT_OF_JAIL       : number = 25
+export const PASS_GO               : number = 26;
+export const PICK_CHANCE           : number = 27;
+export const PICK_COMMUNITY_CHEST  : number = 28;
+export const MORTGAGE              : number = 29;
+export const AUCTION               : number = 210;
+export const BUY_PROPERTY          : number = 211;
+export const BUILD_HOUSE           : number = 212;
+export const DESTROY_HOUSE         : number = 213;
+export const UNMORTGAGE            : number = 214;
+export const RECEIVE_CARD          : number = 215;
+export const ISSUE_NEW_ACTION      : number = 216;
+export const ROLL_DICE             : number = 217;
+export const ROLL_DOUBLE           : number = 218;

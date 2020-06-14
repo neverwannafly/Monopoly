@@ -1,6 +1,6 @@
 // Contains all configuration details
 
-let gameModes = {
+const gameModes = {
     UK: {
         locations: {
             1: {
@@ -463,7 +463,7 @@ let gameModes = {
     },
 };
 
-let CARDS = {
+const CARDS = {
     COMMUNITY_CHEST: function(gameMode) {
         return {
             11: {
@@ -966,7 +966,7 @@ let CARDS = {
     }
 }
 
-let sameTypePropDict = {
+const sameTypePropDict = {
     1: [3],
     3: [1],
     5: [15, 25, 35],

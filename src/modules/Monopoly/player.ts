@@ -1,7 +1,19 @@
 class Player {
-    constructor(tokenid, playerid, name) {
-        this.tokenid = tokenid;
-        this.playerid = playerid;
+
+    tokenId: number;
+    playerId: number;
+    name: string;
+    inTrade: boolean;
+    inJail: boolean;
+    isBankrupt: boolean;
+    properties: Array<number>;
+    cards: Array<number>;
+    position: number;
+    balance: number;
+
+    constructor(tokenId: number, playerId: number, name: string) {
+        this.tokenId = tokenId;
+        this.playerId = playerId;
         this.name = name;
         this.inTrade = false;
         this.inJail = false;
@@ -13,22 +25,22 @@ class Player {
     }
 
     getId() {
-        return this.playerid;
+        return this.playerId;
     }
 
     getBalance() {
         return this.balance;
     }
 
-    receiveMoney(amount) {
+    receiveMoney(amount: number) {
         this.balance += amount;
     }
 
-    payMoney(amount) {
+    payMoney(amount: number) {
         this.balance -= amount;
     }
 
-    ownsPropSet(propid) {
+    ownsPropSet(propid: number) {
         let found = 0;
         let lookupProps = sameTypePropDict[propid];
         for (let i in lookupProps) {
@@ -41,7 +53,7 @@ class Player {
         return lookupProps.length === found;
     }
 
-    samePropsCount(propid) {
+    samePropsCount(propid: number) {
         let count = 1;
         let lookupProps = sameTypePropDict[propid];
         for (let i in lookupProps) {
@@ -54,12 +66,14 @@ class Player {
         return count;
     }
 
-    returnSameProps(propid) {
+    returnSameProps(propid: number) {
         return [...sameTypePropDict[propid]];
     }
 
-    addProperty(propid) {
+    addProperty(propid: number) {
         this.properties.push(propid);
     }
 
 };
+
+export default Player;

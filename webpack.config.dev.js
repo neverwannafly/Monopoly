@@ -12,6 +12,7 @@ export default {
     path: path.join(__dirname, 'dist'),
     filename: "monopoly.js",
   },
+  devtool: 'inline-source-map',
   mode: 'development',
   plugins: [htmlPlugin],
   module: {
@@ -31,9 +32,13 @@ export default {
       test: /\.(png|svg|jpg|gif)$/,
       loader: "file-loader",
       options: { name: '/static/[name].[ext]' }
+    }, {
+      test: /\.tsx?$/,
+      use: 'ts-loader',
+      exclude: /node_modules/,
     }]
   },
   resolve: {
-    extensions: [ '.js' ]
+    extensions: ['.js', '.ts', '.tsx']
   }
 }
