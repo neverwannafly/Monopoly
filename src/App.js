@@ -1,7 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
+import history from './history';
+import Landing from './pages/Landing';
+import NotFound from './pages/NotFound';
 
-export default () => {
+const App = () => {
   return (
-    <h1>Hello from react</h1>
-  )
-};
+    <Router history={history}>
+      <Switch>
+        <Route exact path='/' component={Landing} />
+        <Route exact path='/notfound' component={NotFound} />
+        <Redirect to='/notfound' />
+      </Switch>
+    </Router>
+  );
+}
+
+export default App;
