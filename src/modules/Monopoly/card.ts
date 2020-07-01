@@ -3,7 +3,7 @@ class Card {
   id: number;
   type: number;
   description: string;
-  action: () => void;
+  action: (Game) => void;
 
   constructor(id, type, description, action) {
     this.id = id;
